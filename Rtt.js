@@ -4,6 +4,7 @@ var ground;		//全局变量：地图数组
 {
     //首先构建二维数组当做地面
 	ground = new Array(100);
+
 	var count=0;
     for (var i = 0; i <= 100; i++)
         ground[i] = new Array(100);
@@ -12,25 +13,58 @@ var ground;		//全局变量：地图数组
     for (var i = 0; i < 100; i++)
     {
         for (var j = 0; j < 100; j++)
-            ground[i][j] = 0;
+            ground[i][j] = "_";
     }
  //河道
     for (var i = 0; i < 100; i++)
     {
         for (var j = count; j < count+7; j++)
-            ground[i][j] = 2;
+            ground[i][j] = "~";
         count++;
     }
-//中路
-    for (var i = 99; i >= 0; i--)
+    //中路
+     for (var k = 0; k < 4; k++)
     {
         var j = 0;
-        ground[i][j] = 1;
-        j++;
+        for (var i = 99 - k; i >= 0; i--)
+        {
+            ground[i][j] = 1;
+            j++;
+        }
+    }
+    for (var k = 0; k < 4; k++)
+    {
+        var i=99;
+        for(var j=k;j<100;j++)
+        {
+            ground[i][j] = 1;
+            i--;
+        }
+    }
+//小路i=48--53
+    for (var k = 0; k <= 6; k++)
+    {
+        var j = 0;
+        for (var i = 48 + k; i < 100; i++)
+        {
+            ground[i][j] = 1;
+            j++;
+        }
+    }
+//小路j=48-53
+    for (var k = 0; k <= 6; k++)
+    {
+        var i=0;
+        for(var j=48+k;j<100;j++)
+        {
+            ground[i][j] = 1;
+            i++;
+        }
     }
 }
 
 //在屏幕上显示这个二维数组   
+//供调试用
 function printMap()
 {
     for (var i = 0; i < 100; i++)
