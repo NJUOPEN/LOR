@@ -1,7 +1,10 @@
-﻿
+var ground;		//全局变量：地图数组
+
+﻿function createMapArray()
+{
     //首先构建二维数组当做地面
-var ground = new Array(100);
-var count=0;
+	ground = new Array(100);
+	var count=0;
     for (var i = 0; i <= 100; i++)
         ground[i] = new Array(100);
 //规定：0为无法通过；1为道路；2为河流；3为可移动单位
@@ -25,11 +28,55 @@ var count=0;
         ground[i][j] = 1;
         j++;
     }
-//在屏幕上显示这个二维数组
-   
+}
+
+//在屏幕上显示这个二维数组   
+function printMap()
+{
     for (var i = 0; i < 100; i++)
     {
         for (var j = 0; j < 100; j++)
             document.write(ground[i][j] );
         document.write("<br />");
     }
+}
+
+function loadMap()
+{
+	createMapArray();
+	var map=document.getElementById('playground'); 	//获取视图区
+	var table=document.createElement('div');	//新建一个表格，类型为div
+	table.id='playArea';
+	var cell,cellLine;
+	var i,j;
+	for (i=0;i<100;i++)
+	{
+		cellLine=document.createElement('ul');	//新建一行，元素类型为ul
+		cellLine.className='cellLine';
+		for(j=0;j<100;j++)
+		{
+			cell=document.createElement('li');	//新建一格，元素类型为li
+			cell.className='cell';	//基础样式为cell
+			switch(ground[i][j])
+			{
+				case 0:
+					cell.className+=' cell_Blank';
+					break;
+				case 1:
+					cell.className+=' cell_Road';
+					break;
+				case 2:
+					cell.className+=' cell_River';
+					break;
+				case 3:
+					cell.className+=' cell_Removable';
+					break;
+			}
+			cellLine.appendChild(cell);	//将新的一格追加到该行中
+		}
+		table.appendChild(cellLine);	//将完整的一行追加到整个表格中
+	}
+	map.appendChild(table);	//将完整的表格追加到视图区
+}
+
+document.onReady=loadMap();
