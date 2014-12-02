@@ -20,8 +20,7 @@ function Grounds(){
         count++;
     }
     //中路
-    
-    for (var k = 0; k < 4; k++)
+     for (var k = 0; k < 4; k++)
     {
         var j = 0;
 <<<<<<< HEAD
@@ -43,6 +42,26 @@ function Grounds(){
             i--;
         }
 >>>>>>> origin/master
+    }
+//小路i=48--53
+    for (var k = 0; k <= 6; k++)
+    {
+        var j = 0;
+        for (var i = 48 + k; i < 100; i++)
+        {
+            ground[i][j] = 1;
+            j++;
+        }
+    }
+//小路j=48-53
+    for (var k = 0; k <= 6; k++)
+    {
+        var i=0;
+        for(var j=48+k;j<100;j++)
+        {
+            ground[i][j] = 1;
+            i++;
+        }
     }
 //在屏幕上显示这个二维数组
    
