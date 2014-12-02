@@ -18,12 +18,25 @@ var count=0;
             ground[i][j] = 2;
         count++;
     }
-//中路
-    for (var i = 99; i >= 0; i--)
+    //中路
+    
+    for (var k = 0; k < 4; k++)
     {
         var j = 0;
-        ground[i][j] = 1;
-        j++;
+        for (var i = 99 - k; i >= 0; i--)
+        {
+            ground[i][j] = 1;
+            j++;
+        }
+    }
+    for (var k = 0; k < 4; k++)
+    {
+        var i=99;
+        for(var j=k;j<100;j++)
+        {
+            ground[i][j] = 1;
+            i--;
+        }
     }
 //在屏幕上显示这个二维数组
    
