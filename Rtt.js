@@ -61,6 +61,19 @@ var ground;		//全局变量：地图数组
             i++;
         }
     }
+    //边路
+    for (var i = 0; i <= 5; i++) {
+        for (var j = 0; j <= 99; j++) {
+            ground[i][j] = 1;
+            ground[j][i] = 1;
+        }
+    }
+    for (var i = 99; i >= 94; i--) {
+        for (var j = 0; j <= 99; j++) {
+            ground[i][j] = 1;
+            ground[j][i] = 1;
+        }
+    }
 //基地
     for (var i =99; i >=93; i--)
     {
