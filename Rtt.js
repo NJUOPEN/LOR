@@ -3,14 +3,9 @@ var ground;		//全局变量：地图数组
 ﻿function createMapArray()
 {
     //首先构建二维数组当做地面
-<<<<<<< HEAD
-var ground = new Array(100);
-var count=0;
-=======
 	ground = new Array(100);
 
 	var count=0;
->>>>>>> origin/master
     for (var i = 0; i <= 100; i++)
         ground[i] = new Array(100);
 //规定：0为无法通过；1为道路；2为河流；3为基地；
@@ -66,7 +61,6 @@ var count=0;
             i++;
         }
     }
-<<<<<<< HEAD
 //基地
     for (var i =99; i >=93; i--)
     {
@@ -76,29 +70,17 @@ var count=0;
             ground[j][i] = 3;
         }
     }
-   /* for (var i = 0; i <=6; i++)
-    {
-        for (var j = 99; j <= 93; j--)
-            ground[i][j] = 3;
-    }*/
-//在屏幕上显示这个二维数组
-   
-=======
 }
 
 //在屏幕上显示这个二维数组   
 //供调试用
 function printMap()
 {
->>>>>>> origin/master
     for (var i = 0; i < 100; i++)
     {
         for (var j = 0; j < 100; j++)
             document.write(ground[i][j] );
         document.write("<br />");
-<<<<<<< HEAD
-    }
-=======
     }
 }
 
@@ -141,4 +123,3 @@ function loadMap()
 }
 
 document.onReady=loadMap();
->>>>>>> origin/master
