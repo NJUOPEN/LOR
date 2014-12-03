@@ -1,32 +1,27 @@
 ﻿
     //首先构建二维数组当做地面
-function Grounds(){
-	var ground = new Array(100);
-	var count=0;
+var ground = new Array(100);
+var count=0;
     for (var i = 0; i <= 100; i++)
         ground[i] = new Array(100);
-//规定：0为无法通过；1为道路；2为河流；3为可移动单位
+//规定：0为无法通过；1为道路；2为河流；3为基地；
 //整个数组归零
     for (var i = 0; i < 100; i++)
     {
         for (var j = 0; j < 100; j++)
-            ground[i][j] = "_";
+            ground[i][j] = 0;
     }
  //河道
     for (var i = 0; i < 100; i++)
     {
         for (var j = count; j < count+7; j++)
-            ground[i][j] = "~";
+            ground[i][j] = 2;
         count++;
     }
     //中路
      for (var k = 0; k < 4; k++)
     {
         var j = 0;
-<<<<<<< HEAD
-        ground[i][j] = "|";
-        j++;
-=======
         for (var i = 99 - k; i >= 0; i--)
         {
             ground[i][j] = 1;
@@ -41,7 +36,6 @@ function Grounds(){
             ground[i][j] = 1;
             i--;
         }
->>>>>>> origin/master
     }
 //小路i=48--53
     for (var k = 0; k <= 6; k++)
@@ -63,6 +57,20 @@ function Grounds(){
             i++;
         }
     }
+//基地
+    for (var i =99; i >=93; i--)
+    {
+        for (var j = 0; j <= 6; j++)
+        {
+            ground[i][j] = 3;
+            ground[j][i] = 3;
+        }
+    }
+   /* for (var i = 0; i <=6; i++)
+    {
+        for (var j = 99; j <= 93; j--)
+            ground[i][j] = 3;
+    }*/
 //在屏幕上显示这个二维数组
    
     for (var i = 0; i < 100; i++)
@@ -71,4 +79,3 @@ function Grounds(){
             document.write(ground[i][j] );
         document.write("<br />");
     }
-	}
