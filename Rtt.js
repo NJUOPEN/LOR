@@ -81,17 +81,17 @@ function createMapArray() {
 //单位在thing上面移动
 //放置单位
 function set(i, j) {
-    var a = 3, b = 3;
-    for (; i < i + a; i++) {
-        for (; j < j + a; j++)
+    var a = i+3, b = j+3;
+    for (; i < a; i++) {
+        for (; j < b; j++)
             g.thing[i][j] = 1;
     }
 }
 //撤销一个单位
 function del(i, j) {
-    var a = 3, b = 3;
-    for (; i < i + a; i++) {
-        for (; j < j + a; j++)
+    var a = i+3, b = j+3;
+    for (; i < a; i++) {
+        for (; j < b; j++)
             g.thing[i][j] = 0;
     }
 }
@@ -137,6 +137,11 @@ function hero(i,j,x, y) {
             mov_right(x, y);
         }
     }
+   /* for (var i = 0; i <=6; i++)
+    {
+        for (var j = 99; j <= 93; j--)
+            ground[i][j] = 3;
+    }*/
 }
 
 //在屏幕上显示这个二维数组   
@@ -153,7 +158,11 @@ function printMap()
 
 function loadMap() {
     createMapArray();
-    var map = document.getElementById('playground'); 	//获取视图区
+    showMap();
+}
+
+function showMap(){
+	var map = document.getElementById('playground'); 	//获取视图区
     var table = document.createElement('div');	//新建一个表格，类型为div
     table.id = 'playArea';
     var cell, cellLine;
@@ -185,5 +194,28 @@ function loadMap() {
     map.appendChild(table);	//将完整的表格追加到视图区
 }
 
-document.onReady = loadMap();
+function updateMap(){
+	var table=document.getElementById('playArea');
+	if (!table) return false;
+	for (i = 0; i < 100; i++) {
+		for (j = 0; j < 100; j++) {
+			table.childNodes[i].childNodes[j].className='cell';
+			switch (g.ground[i][j]) {
+                case 0:
+                    table.childNodes[i].childNodes[j].className += ' cell_Blank';
+                    break;
+                case 1:
+                    table.childNodes[i].childNodes[j].className += ' cell_Road';
+                    break;
+                case 2:
+                    table.childNodes[i].childNodes[j].className += ' cell_River';
+                    break;
+                case 3:
+                    table.childNodes[i].childNodes[j].className += ' cell_Removable';
+                    break;
+			}
+		}	
+	}
+}
 
+document.onReady=loadMap();

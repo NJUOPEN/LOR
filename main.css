@@ -21,6 +21,7 @@ ul,li{
 #playArea{
 	border:1px solid;
 	height:620px;
+	cursor:pointer;
 }
 #playArea .cellLine{	//包含格子的行
 	width:100%;
