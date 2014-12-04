@@ -194,7 +194,7 @@ function showMap(){
     map.appendChild(table);	//将完整的表格追加到视图区
 }
 
-function updateMap(){
+/*function updateMap(){
 	var table=document.getElementById('playArea');
 	if (!table) return false;
 	for (i = 0; i < 100; i++) {
@@ -216,6 +216,6 @@ function updateMap(){
 			}
 		}	
 	}
-}
+}*/
 
 document.onReady=loadMap();
