@@ -99,22 +99,22 @@ function del(i, j) {
 function mov_left(i, j) {
     del(i,j);
     if(j>0)
-    set(i,j-1);
+    set(i-1,j);
 }
 function mov_right(i, j) {
     del(i, j);
     if (j < 99)
-        set(i , j+1);
+        set(i+1 , j);
 }
 function mov_up(i, j) {
     del(i, j);
     if (i > 0)
-        set(i - 1, j);
+        set(i , j-1);
 }
 function mov_down(i, j) {
     del(i, j);
     if (i < 99)
-        set(i + 1, j);
+        set(i , j+1);
 }
 //中路小兵的路径  参数为目标位置坐标  *未完成*
 function littles(x,y) {
