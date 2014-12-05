@@ -12,14 +12,16 @@ var hero={
 		var ti=0;
 		if ((i != x) ||(j != y)) {
             if (g.thing[x][y] == 0 && g.ground[x][y] != 0) {
-			    if(!ti)
-				mov_up(pos_x,pos_y);
-                else {mov_right(pos_x,pos_y);
-			    ti++;
+			    if(!ti){
+				    mov_up(pos_x,pos_y);
+			        ti++;
 				}
-		        if(ti){
+                else {
+				mov_right(pos_x,pos_y);
 			    ti=0;
-		        }
+				}
+			
+		        
 			
             }
         }
