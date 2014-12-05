@@ -8,10 +8,21 @@ var hero={
 		pos_x=x;
 		pos_y=y;
 	},
-	move:function(){
-		mov_up(pos_x,pos_y);
-		pos_y-=1;
-		if (pos_y<1) return;
+	move:function(x,y){
+		var ti=0;
+		if ((i != x) ||(j != y)) {
+            if (g.thing[x][y] == 0 && g.ground[x][y] != 0) {
+			    if(!ti)
+				mov_up(pos_x,pos_y);
+                else {mov_right(pos_x,pos_y);
+			    ti++;
+				}
+		        if(ti){
+			    ti=0;
+		        }
+			
+            }
+        }
 		document.getElementById('header').innerHTML='('+pos_x+','+pos_y+')';
 	}
 }
