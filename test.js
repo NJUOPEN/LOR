@@ -27,5 +27,5 @@ var hero={
 	}
 }
 
-hero.setPosition(99,99);
+hero.setPosition(99,0);
 setInterval(hero.move,1000);
