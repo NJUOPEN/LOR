@@ -129,11 +129,9 @@ function littles(x,y) {
     }
 }
 //英雄最短路径 参数为目的位置坐标  *未完成*
-function hero(i,j,x, y) {
-    if (i < x && j < y) {
-        if (g.thing[x][y - 1] == 0 && g.ground[x][y - 1] != 0) {
-            y--;
-            hero(x, y);
+function hero(i,j,x,y) {
+    if ((i != x) ||(j != y)) {
+        if (g.thing[x][y] == 0 && g.ground[x][y] != 0) {
             mov_right(x, y);
         }
     }
