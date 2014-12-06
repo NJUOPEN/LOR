@@ -97,33 +97,38 @@ function del(i, j) {
 }
 //物体的基本移动
 function mov_left(i, j) {
-if (g.thing[x][y] == 0 && g.ground[x][y] != 0){
     del(i,j);
-    if(j>0)
-    set(i-1,j);
+if(j>0){
+        set(i-1,j);
+        i=i-1;
 }
 }
+
 function mov_right(i, j) {
-if (g.thing[x][y] == 0 && g.ground[x][y] != 0){
     del(i, j);
-    if (j < 99)
+if (j < 99){
         set(i+1 , j);
+	    i=i+1;
 }
+	
 }
 function mov_up(i, j) {
-if (g.thing[x][y] == 0 && g.ground[x][y] != 0){
     del(i, j);
-    if (i > 0)
+if (i > 0){
         set(i , j-1);
+        j=j-1
 }
-}
+} 
+
 function mov_down(i, j) {
-if (g.thing[x][y] == 0 && g.ground[x][y] != 0){
+
     del(i, j);
-    if (i < 99)
+if (i < 99){
         set(i , j+1);
+	    j=j+1
 }
 }
+
 //中路小兵的路径  参数为目标位置坐标  *未完成*
 function littles(x,y) {
     set(99, 0);
