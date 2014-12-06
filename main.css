@@ -16,46 +16,48 @@ ul,li{
 	background:#F8F8F8;
 }
 #footer{
+	width:100%;
 	clear:both;
 	background:#729fcf;
 }
 #playArea{
 	margin:0px auto;
 	padding:0px;
-	width:600px;
+	width:800px;
+	height:600px;
 	border:1px solid;
-	height:400px;
 	cursor:pointer;
 	overflow:hidden;
 }
 #playArea .cellLine{	//包含格子的行
 	width:100%;
-	height:4px;
-	display:block;
+	height:2px;
 	margin:0px;
 	padding:0px;
 	overflow:hidden;
+	display:block;
 }
 #playArea .cellLine .cell{ //默认的格子样式
-	width:6px;
-	height:4px;
-	border:2px 3px 2px 3px;
+	border-top:1px;
+	border-right:1px;
+	border-bottom:1px;
+	border-left:1px;	
 	border-style:solid;
 	display:inline;
 }
 #playArea .cellLine .cell_Blank{	//空白格子
-	background-color:#FFFFFF;
+	background-color:inherit;
 	border-color:#FFFFFF;
 }
 #playArea .cellLine .cell_Road{	//道路
-	background-color:#8f5902;
+	background-color:inherit;
 	border-color:#8f5902;
 }
 #playArea .cellLine .cell_River{	//河流
-	background-color:#729fcf;
+	background-color:inherit;
 	border-color:#729fcf;
 }
 #playArea .cellLine .cell_Removable{	//可移动物体
-	background-color:#fce94f;
+	background-color:inherit;
 	border-color:#fce94f;
 }

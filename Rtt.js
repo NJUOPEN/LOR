@@ -1,3 +1,4 @@
+var ScreenWidth=400, ScreenHeight=300;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为800×600
 var g={ground:0,thing:0};
 //全局变量：地图数组
 //其中ground代表地面；thing代表站在该处的物体 1为有物体
@@ -5,20 +6,23 @@ var g={ground:0,thing:0};
 
 function createMapArray() {
     //首先构建二维数组当做地面
-    g.ground = new Array(100);
-    g.thing=new Array(100)
+    g.ground = new Array(ScreenHeight);
+    g.thing=new Array(ScreenHeight)
     var count = 0;
-    for (var i = 0; i <= 100; i++) {
-        g.ground[i] = new Array(100);
-        g.thing[i] = new Array(100);
+    for (var i = 0; i <= ScreenHeight; i++) {
+        g.ground[i] = new Array(ScreenWidth);
+        g.thing[i] = new Array(ScreenWidth);
     }
 
     //规定：0为无法通过；1为道路；2为河流；3为基地；
     //整个数组归零
-    for (var i = 0; i < 100; i++) {
-        for (var j = 0; j < 100; j++)
+    for (var i = 0; i < ScreenHeight; i++) {
+        for (var j = 0; j < ScreenWidth; j++)
             g.ground[i][j] = 0;
     }
+    
+    //TODO：在新的屏幕尺寸上绘制新的地图
+    
 //河道
     for (var i = 0; i < 100; i++) {
         for (var j = count; j < count + 7; j++)
@@ -159,9 +163,9 @@ function hero(i,j,x,y) {
 //供调试用
 function printMap()
 {
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < ScreenHeight; i++)
     {
-        for (var j = 0; j < 100; j++)
+        for (var j = 0; j < ScreenWidth; j++)
             document.write(g.ground[i][j] );
         document.write("<br />");
     }
@@ -178,10 +182,10 @@ function showMap(){
     table.id = 'playArea';
     var cell, cellLine;
     var i, j;
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < ScreenHeight; i++) {
         cellLine = document.createElement('ul');	//新建一行，元素类型为ul
         cellLine.className = 'cellLine';
-        for (j = 0; j < 100; j++) {
+        for (j = 0; j < ScreenWidth; j++) {
             cell = document.createElement('li');	//新建一格，元素类型为li
             cell.className = 'cell';	//基础样式为cell
             switch (g.ground[i][j]) {
