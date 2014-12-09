@@ -7,7 +7,7 @@ var g={ground:0,thing:0};
 function createMapArray() {
     //首先构建二维数组当做地面
     g.ground = new Array(ScreenHeight);
-    g.thing=new Array(ScreenHeight)
+    g.thing = new Array(ScreenHeight)
     var count = 0;
     for (var i = 0; i <= ScreenHeight; i++) {
         g.ground[i] = new Array(ScreenWidth);
@@ -18,71 +18,115 @@ function createMapArray() {
     //整个数组归零
     for (var i = 0; i < ScreenHeight; i++) {
         for (var j = 0; j < ScreenWidth; j++)
-            g.ground[i][j] = 0;
+            g.ground[i][j] = 1;
     }
-    
+
     //TODO：在新的屏幕尺寸上绘制新的地图
-    
-//河道
-    for (var i = 0; i < 100; i++) {
-        for (var j = count; j < count + 7; j++)
-            g.ground[i][j] = 2;
-        count++;
+    /*旧地图   
+   //河道
+       for (var i = 0; i < 100; i++) {
+           for (var j = count; j < count + 7; j++)
+               g.ground[i][j] = 2;
+           count++;
+       }
+       //中路
+       for (var k = 0; k < 4; k++) {
+           var j = 0;
+           for (var i = 99 - k; i >= 0; i--) {
+               g.ground[i][j] = 1;
+               j++;
+           }
+       }
+       for (var k = 0; k < 4; k++) {
+           var i = 99;
+           for (var j = k; j < 100; j++) {
+               g.ground[i][j] = 1;
+               i--;
+           }
+       }
+       //小路i=48--53
+       for (var k = 0; k <= 6; k++) {
+           var j = 0;
+           for (var i = 48 + k; i < 100; i++) {
+               g.ground[i][j] = 1;
+               j++;
+           }
+       }
+       //小路j=48-53
+       for (var k = 0; k <= 6; k++) {
+           var i = 0;
+           for (var j = 48 + k; j < 100; j++) {
+               g.ground[i][j] = 1;
+               i++;
+           }
+       }
+       //边路
+       for (var i = 0; i <= 5; i++) {
+           for (var j = 0; j <= 99; j++) {
+               g.ground[i][j] = 1;
+               g.ground[j][i] = 1;
+           }
+       }
+       for (var i = 99; i >= 94; i--) {
+           for (var j = 0; j <= 99; j++) {
+               g.ground[i][j] = 1;
+               g.ground[j][i] = 1;
+           }
+       }
+       //基地
+       for (var i = 99; i >= 93; i--) {
+           for (var j = 0; j <= 6; j++) {
+               g.ground[i][j] = 3;
+               g.ground[j][i] = 3;
+           }
+       }
+   
+   */
+    //新地图 一路
+    //上三角
+    var a = 50;
+    for (var i = 0; a >= 0; i++) {
+        for (var j = 200 - a; j <= 150 + a; j++)
+            g.ground[i][j] = 0;
+        a=a-3;
     }
-    //中路
-    for (var k = 0; k < 4; k++) {
-        var j = 0;
-        for (var i = 99 - k; i >= 0; i--) {
-            g.ground[i][j] = 1;
-            j++;
-        }
+    //左三角
+    a = 30;
+    for (var j = 0; a >= 0; j++) {
+        for (var i = 170 - a; i <= 140 + a; i++)
+            g.ground[i][j] = 0;
+            a -= 1;
     }
-    for (var k = 0; k < 4; k++) {
-        var i = 99;
-        for (var j = k; j < 100; j++) {
-            g.ground[i][j] = 1;
-            i--;
-        }
+    //下三角
+    a = 80;
+    for(var i=ScreenHeight-1;a>=0;i--)
+    {
+        for (var j = 205 - a; j <= 145 + a; j++)
+            g.ground[i][j] = 0;
+        a -= 3;
     }
-    //小路i=48--53
-    for (var k = 0; k <= 6; k++) {
-        var j = 0;
-        for (var i = 48 + k; i < 100; i++) {
-            g.ground[i][j] = 1;
-            j++;
-        }
+    //右三角
+    a = 60;
+    for (var j = ScreenWidth - 1; a >= 0; j--) {
+        for (var i = 170 - a; i <= 110 + a; i++)
+            g.ground[i][j] = 0;
+        a -= 1;
     }
-    //小路j=48-53
-    for (var k = 0; k <= 6; k++) {
-        var i = 0;
-        for (var j = 48 + k; j < 100; j++) {
-            g.ground[i][j] = 1;
-            i++;
-        }
-    }
-    //边路
-    for (var i = 0; i <= 5; i++) {
-        for (var j = 0; j <= 99; j++) {
-            g.ground[i][j] = 1;
-            g.ground[j][i] = 1;
-        }
-    }
-    for (var i = 99; i >= 94; i--) {
-        for (var j = 0; j <= 99; j++) {
-            g.ground[i][j] = 1;
-            g.ground[j][i] = 1;
-        }
-    }
-    //基地
-    for (var i = 99; i >= 93; i--) {
-        for (var j = 0; j <= 6; j++) {
+    //基地左下
+    var house_wide=20
+    for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
+    {
+        for (var j = 0; j <= house_wide - 1; j++)
             g.ground[i][j] = 3;
-            g.ground[j][i] = 3;
-        }
+    }
+    //基地右上
+    for (var j = ScreenWidth - 1; j >= ScreenWidth - house_wide; j--) {
+        for (var i = 0; i <= house_wide - 1; i++)
+            g.ground[i][j] = 3;
     }
 }
 
-//单位在thing上面移动
+    //单位在thing上面移动
 //放置单位
 function set(i, j) {
     var a = i+3, b = j+3;
