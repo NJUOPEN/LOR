@@ -15,7 +15,7 @@ function createMapArray() {
         g.thing[i] = new Array(ScreenHeight);
     }
 
-    //规定：0为无法通过；1为道路；2为河流；3为基地；
+    //规定：0为无法通过；1为道路；2为河流；3为基地；4为草丛
     //整个数组归零
     for (var i = 0; i < ScreenWidth; i++) {
         for (var j = 0; j < ScreenHeight; j++)
@@ -127,6 +127,17 @@ function createMapArray() {
     for (var j = ScreenWidth - 1; j >= ScreenWidth - house_wide; j--) {
         for (var i = 0; i <= house_wide - 1; i++)
             g.ground[j][i] = 3;
+    }
+    //草丛(先简陋的做成正方形)
+    for(var i=120;i<=180;i++)
+    {
+        for (var j = 110; j <= 140; j++)
+            g.ground[j][i] = 4;
+    }
+    for(var i=220;i<=280;i++)
+    {
+        for (var j = 160; j <= 190; j++)
+            g.ground[j][i] = 4;
     }
 }
 
