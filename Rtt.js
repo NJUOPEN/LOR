@@ -18,7 +18,10 @@ function createMapArray() {
     //整个数组归零
     for (var i = 0; i < ScreenHeight; i++) {
         for (var j = 0; j < ScreenWidth; j++)
+        {
             g.ground[i][j] = 1;
+            g.thing[i][j] = 0;
+        }
     }
 
     //TODO：在新的屏幕尺寸上绘制新的地图
@@ -126,13 +129,14 @@ function createMapArray() {
     }
 }
 
+//一下为所有物体通用的移动函数
     //单位在thing上面移动
 //放置单位
-function set(i, j) {
+function set(i, j, ID) {
     var a = i+3, b = j+3;
     for (; i < a; i++) {
         for (; j < b; j++)
-            g.thing[i][j] = 1;
+            g.thing[i][j] = ID;
     }
 }
 //撤销一个单位
@@ -145,63 +149,43 @@ function del(i, j) {
 }
 //物体的基本移动
 function mov_left(i, j) {
+	var ID=g.thing[i][j];
     del(i,j);
 if(j>0){
-        set(i-1,j);
+        set(i-1, j, ID);
         i=i-1;
 }
 }
 
 function mov_right(i, j) {
+	var ID=g.thing[i][j];
     del(i, j);
 if (j < 99){
-        set(i+1 , j);
+        set(i+1 , j, ID);
 	    i=i+1;
 }
 	
 }
 function mov_up(i, j) {
+	var ID=g.thing[i][j];
     del(i, j);
 if (i > 0){
-        set(i , j-1);
+        set(i , j-1, ID);
         j=j-1
 }
 } 
 
 function mov_down(i, j) {
-
+	var ID=g.thing[i][j];
     del(i, j);
 if (i < 99){
-        set(i , j+1);
+        set(i , j+1, ID);
 	    j=j+1
 }
 }
 
-//中路小兵的路径  参数为目标位置坐标  *未完成*
-function littles(x,y) {
-    set(99, 0);
-    var i=0,j=0;
-    while(i!=x||j!=y)
-    {
-        if (g.thing[i - 1][j] == 0 && g.ground[i - 1][j] != 0)
-        { mov_up(i, j); i--; }
-        if (g.thing[i][j + 1] == 0 && g.ground[i][j + 1] != 0)
-        {mov_right(i, j);j++}
-    }
-}
-//英雄最短路径 参数为目的位置坐标  *未完成*
-function hero(i,j,x,y) {
-    if ((i != x) ||(j != y)) {
-        if (g.thing[x][y] == 0 && g.ground[x][y] != 0) {
-            mov_right(x, y);
-        }
-    }
-   /* for (var i = 0; i <=6; i++)
-    {
-        for (var j = 99; j <= 93; j--)
-            ground[i][j] = 3;
-    }*/
-}
+
+
 
 //在屏幕上显示这个二维数组   
 //供调试用
@@ -277,4 +261,255 @@ function showMap(){
 	}
 }*/
 
-document.onReady=loadMap();
+var hero={
+
+	ID:1,
+	pos_x:0,
+	pos_y:0,
+	state:0,	//当前状态
+	move_path:null,	//缓存的移动路径，以二维数组形式存储，记录每一步的坐标
+	//如move_path[0][0]表示第一步的横坐标，move_path[4][1]表示第五步的纵坐标
+	
+	setPosition:function(x,y)
+	{
+		this.pos_x=x;
+		this.pos_y=y;
+		set(this.pos_x,this.pos_y,this.ID)
+	},
+	move:function(x,y){           //英雄路径算法（非最短）,计算后将坐标值填入move_path数组
+		if (g.thing[x][y] != 0 || g.ground[x][y] == 0) {   //目的无效
+			return false;
+		}
+		//return;
+		var ti=0;
+		
+		this.move_path=new Array();
+		var pos_x = this.pos_x, pos_y = this.pos_y;
+		//请注意：此函数中的pos_x、pos_y与hero类中的pos_x、pos_y不同
+		
+		while ((pos_x != x) ||(pos_y != y)) {
+				if(ti==0){
+					if(y<pos_y){                                  //ti：0左右（交替）1上下（交替）2左右（直线）3上下（直线）
+						if(g.ground[pos_x][pos_y-1] != 0){
+							this.move_path.push(new Array(pos_x,--pos_y));
+							//mov_up(pos_x,pos_y);
+							ti++;
+						}
+						else
+						ti=2;
+						
+					}
+					else if(y>pos_y){
+						if(g.ground[pos_x][pos_y+1] != 0){
+							this.move_path.push(new Array(pos_x,++pos_y));
+							//mov_down(pos_x,pos_y);
+							ti++;}
+						else 
+						ti=2;
+						
+						
+					}
+					else
+						ti=1;
+				}
+				
+				else if(ti==1){                                 
+					if(x>pos_x){
+						if(g.ground[pos_x+1][pos_y] != 0)
+						{
+							this.move_path.push(new Array(++pos_x,pos_y));
+							//mov_right(pos_x,pos_y);
+							ti=0;
+						}
+						else ti=3;
+						
+					}
+					else if(x<pos_x){
+						if(g.ground[pos_x-1][pos_y] != 0){
+							this.move_path.push(new Array(--pos_x,pos_y));
+							//mov_left(pos_x,pos_y);
+							ti=0;
+						}
+						else 
+						ti=3;
+						
+					}
+					else
+						ti=0;
+				}
+				else if(ti==2){                          //直线行走至上下无阻挡
+					if (x<pos_x){
+						if(y<pos_y){
+							this.move_path.push(new Array(--pos_x,pos_y));
+							//mov_left(pos_x,pos_y);
+							if(g.ground[pos_x,pos_y-1]==0)
+							ti=2;
+							else 
+							ti=1;
+							
+						}
+						if(y>pos_y){
+							this.move_path.push(new Array(--pos_x,pos_y));
+							//mov_left(pos_x,pos_y);
+							if(g.ground[pos_x,pos_y+1]==0)
+							ti=2;
+							else 
+							ti=1;
+							
+						}
+						
+						
+					}
+					if (x>pos_x){                    
+						if(y<pos_y){
+							this.move_path.push(new Array(++pos_x,pos_y));
+							//mov_right(pos_x,pos_y);
+							if(g.ground[pos_x,pos_y-1]==0)
+							ti=2;
+							else 
+							ti=1;
+							
+						}
+						if(y>pos_y){
+							this.move_path.push(new Array(++pos_x,pos_y));
+							//mov_right(pos_x,pos_y);
+							if(g.ground[pos_x,pos_y+1]==0)
+							ti=2;
+							else 
+							ti=1;
+							
+						}
+						
+						
+					}
+					
+				}
+				else if(ti==3){
+					if (y<pos_y){
+						if(x<pos_x){
+							this.move_path.push(new Array(pos_x,++pos_y));
+							//mov_up(pos_x,pos_y);
+							if(g.ground[pos_x-1,pos_y]==0)
+							ti=3;
+							else 
+							ti=0;
+							
+						}
+						if(x>pos_x){
+							this.move_path.push(new Array(pos_x,++pos_y));
+							//mov_up(pos_x,pos_y);
+							if(g.ground[pos_x+1,pos_y]==0)
+							ti=3;
+							else 
+							ti=0;
+							
+						}
+						
+						
+					}
+					if (y>pos_y){
+						if(x<pos_x){
+							this.move_path.push(new Array(pos_x,--pos_y));
+							//mov_down(pos_x,pos_y);
+							if(g.ground[pos_x-1,pos_y]==0)
+							ti=3;
+							else 
+							ti=0;
+							
+						}
+						if(x>pos_x){
+							this.move_path.push(new Array(pos_x,--pos_y));
+							//mov_down(pos_x,pos_y);
+							if(g.ground[pos_x+1,pos_y]==0)
+							ti=3;
+							else 
+							ti=0;
+							
+						}
+						
+						
+					}
+			}
+			//alert(this.move_path[this.move_path.length-1][0]+","+this.move_path[this.move_path.length-1][1]);
+		}
+		this.move_path.push(new Array(x,y));	//最后一步为目标坐标
+	},
+	tryNextStep:function(){
+		if (!this.move_path || this.move_path.length<1)	//移动完成
+		{
+			this.state=0;
+		}
+		else
+		{
+			var nextStep=this.move_path[0];		//取得下一步的坐标
+			if (g.ground[nextStep[0]][nextStep[1]] != 0 && (g.thing[nextStep[0]][nextStep[1]] == 0 || g.thing[nextStep[0]][nextStep[1]] == this.ID )) {   //目的有效
+					this.setPosition(nextStep[0],nextStep[1]);
+					this.move_path.splice(0,1);					
+			}
+			else{	//重新计算移动路径
+				nextStep=this.move_path[this.move_path.length-1];
+				this.move(nextStep[0],nextStep[1]);
+			} 
+		}
+	},
+	moveTo:function(x,y){
+		this.move(x,y);
+		this.state=1;
+	},
+	doEvent:function()
+	{
+		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;			
+		switch (this.state)
+		{
+			case 0:		//无动作
+				return;
+			case 1:		//移动状态
+				this.tryNextStep();
+				return;
+		}
+	},
+}
+
+var littles={
+	ID:2,
+	
+	setPosition:function(x,y)
+	{
+		this.pos_x=x;
+		this.pos_y=y;
+		set(this.pos_x,this.pos_y,this.ID)
+	},
+	doEvent:function(){
+	
+	}
+}
+
+function doEvent()	//总的事件处理函数；具体处理过程交给相关对象的doEvent函数
+{
+	hero.doEvent();
+	littles.doEvent();
+	//XXX.doEvent();
+}
+
+function findSomethingByID(ID)	//通过ID获取具体的对象
+{
+	switch (ID){
+		case 1:
+			return hero;
+		case 2:
+			return littles;
+		default:
+			return;
+	}
+}
+
+function init()	//初始化
+{
+	loadMap();
+	hero.setPosition(298,2);
+	hero.moveTo(1,399);
+	littles.setPosition(1,299);
+	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
+}
+
+document.onReady=init();
