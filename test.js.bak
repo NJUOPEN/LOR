@@ -4,7 +4,7 @@ var hero={
 	ID=1;
 	pos_x:0,
 	pos_y:0,
-  state:0;	//当前状态
+state:0;	//当前状态
 	move_path:[][][];	//缓存的移动路径，以三维数组形式存储
 setPosition:function(x,y)
 	{
