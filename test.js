@@ -159,3 +159,4 @@ function findSomethingByID(ID)
 
 hero.setPosition(99,0);
 setInterval(doEvent,1000);	//每隔1秒调用1次，相当于定时器
+
