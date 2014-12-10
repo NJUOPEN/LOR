@@ -216,6 +216,8 @@ function showMap(){
         cellLine.className = 'cellLine';
         for (i = 0; i < ScreenWidth; i++) {
             cell = document.createElement('li');	//新建一格，元素类型为li
+            cell.posX=i;
+            cell.posY=j;
             cell.className = 'cell';	//基础样式为cell
             switch (g.ground[i][j]) {
                 case 0:
