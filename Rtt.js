@@ -1,23 +1,24 @@
 var ScreenWidth=400, ScreenHeight=300;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为800×600
 var g={ground:0,thing:0};
+var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
 //其中ground代表地面；thing代表站在该处的物体 1为有物体
 //并且暂时只用一个像素点来表示可移动单位
 
 function createMapArray() {
     //首先构建二维数组当做地面
-    g.ground = new Array(ScreenHeight);
-    g.thing = new Array(ScreenHeight)
+    g.ground = new Array(ScreenWidth);
+    g.thing = new Array(ScreenWidth)
     var count = 0;
-    for (var i = 0; i <= ScreenHeight; i++) {
-        g.ground[i] = new Array(ScreenWidth);
-        g.thing[i] = new Array(ScreenWidth);
+    for (var i = 0; i <= ScreenWidth; i++) {
+        g.ground[i] = new Array(ScreenHeight);
+        g.thing[i] = new Array(ScreenHeight);
     }
 
     //规定：0为无法通过；1为道路；2为河流；3为基地；
     //整个数组归零
-    for (var i = 0; i < ScreenHeight; i++) {
-        for (var j = 0; j < ScreenWidth; j++)
+    for (var i = 0; i < ScreenWidth; i++) {
+        for (var j = 0; j < ScreenHeight; j++)
         {
             g.ground[i][j] = 1;
             g.thing[i][j] = 0;
@@ -90,14 +91,14 @@ function createMapArray() {
     var a = 50;
     for (var i = 0; a >= 0; i++) {
         for (var j = 200 - a; j <= 150 + a; j++)
-            g.ground[i][j] = 0;
+            g.ground[j][i] = 0;
         a=a-3;
     }
     //左三角
     a = 30;
     for (var j = 0; a >= 0; j++) {
         for (var i = 170 - a; i <= 140 + a; i++)
-            g.ground[i][j] = 0;
+            g.ground[j][i] = 0;
             a -= 1;
     }
     //下三角
@@ -105,14 +106,14 @@ function createMapArray() {
     for(var i=ScreenHeight-1;a>=0;i--)
     {
         for (var j = 205 - a; j <= 145 + a; j++)
-            g.ground[i][j] = 0;
+            g.ground[j][i] = 0;
         a -= 3;
     }
     //右三角
     a = 60;
     for (var j = ScreenWidth - 1; a >= 0; j--) {
         for (var i = 170 - a; i <= 110 + a; i++)
-            g.ground[i][j] = 0;
+            g.ground[j][i] = 0;
         a -= 1;
     }
     //基地左下
@@ -120,12 +121,12 @@ function createMapArray() {
     for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
     {
         for (var j = 0; j <= house_wide - 1; j++)
-            g.ground[i][j] = 3;
+            g.ground[j][i] = 3;
     }
     //基地右上
     for (var j = ScreenWidth - 1; j >= ScreenWidth - house_wide; j--) {
         for (var i = 0; i <= house_wide - 1; i++)
-            g.ground[i][j] = 3;
+            g.ground[j][i] = 3;
     }
 }
 
@@ -210,10 +211,10 @@ function showMap(){
     table.id = 'playArea';
     var cell, cellLine;
     var i, j;
-    for (i = 0; i < ScreenHeight; i++) {
+    for (j = 0; j < ScreenHeight; j++) {
         cellLine = document.createElement('ul');	//新建一行，元素类型为ul
         cellLine.className = 'cellLine';
-        for (j = 0; j < ScreenWidth; j++) {
+        for (i = 0; i < ScreenWidth; i++) {
             cell = document.createElement('li');	//新建一格，元素类型为li
             cell.className = 'cell';	//基础样式为cell
             switch (g.ground[i][j]) {
@@ -277,7 +278,7 @@ var hero={
 		set(this.pos_x,this.pos_y,this.ID)
 	},
 	move:function(x,y){           //英雄路径算法（非最短）,计算后将坐标值填入move_path数组
-		if (g.thing[x][y] != 0 || g.ground[x][y] == 0) {   //目的无效
+		if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != this.ID )) {   //目的无效
 			return false;
 		}
 		//return;
@@ -342,7 +343,7 @@ var hero={
 						if(y<pos_y){
 							this.move_path.push(new Array(--pos_x,pos_y));
 							//mov_left(pos_x,pos_y);
-							if(g.ground[pos_x,pos_y-1]==0)
+							if(g.ground[pos_x][pos_y-1]==0)
 							ti=2;
 							else 
 							ti=1;
@@ -351,7 +352,7 @@ var hero={
 						if(y>pos_y){
 							this.move_path.push(new Array(--pos_x,pos_y));
 							//mov_left(pos_x,pos_y);
-							if(g.ground[pos_x,pos_y+1]==0)
+							if(g.ground[pos_x][pos_y+1]==0)
 							ti=2;
 							else 
 							ti=1;
@@ -364,7 +365,7 @@ var hero={
 						if(y<pos_y){
 							this.move_path.push(new Array(++pos_x,pos_y));
 							//mov_right(pos_x,pos_y);
-							if(g.ground[pos_x,pos_y-1]==0)
+							if(g.ground[pos_x][pos_y-1]==0)
 							ti=2;
 							else 
 							ti=1;
@@ -373,7 +374,7 @@ var hero={
 						if(y>pos_y){
 							this.move_path.push(new Array(++pos_x,pos_y));
 							//mov_right(pos_x,pos_y);
-							if(g.ground[pos_x,pos_y+1]==0)
+							if(g.ground[pos_x][pos_y+1]==0)
 							ti=2;
 							else 
 							ti=1;
@@ -389,7 +390,7 @@ var hero={
 						if(x<pos_x){
 							this.move_path.push(new Array(pos_x,++pos_y));
 							//mov_up(pos_x,pos_y);
-							if(g.ground[pos_x-1,pos_y]==0)
+							if(g.ground[pos_x-1][pos_y]==0)
 							ti=3;
 							else 
 							ti=0;
@@ -398,7 +399,7 @@ var hero={
 						if(x>pos_x){
 							this.move_path.push(new Array(pos_x,++pos_y));
 							//mov_up(pos_x,pos_y);
-							if(g.ground[pos_x+1,pos_y]==0)
+							if(g.ground[pos_x+1][pos_y]==0)
 							ti=3;
 							else 
 							ti=0;
@@ -411,7 +412,7 @@ var hero={
 						if(x<pos_x){
 							this.move_path.push(new Array(pos_x,--pos_y));
 							//mov_down(pos_x,pos_y);
-							if(g.ground[pos_x-1,pos_y]==0)
+							if(g.ground[pos_x-1][pos_y]==0)
 							ti=3;
 							else 
 							ti=0;
@@ -420,7 +421,7 @@ var hero={
 						if(x>pos_x){
 							this.move_path.push(new Array(pos_x,--pos_y));
 							//mov_down(pos_x,pos_y);
-							if(g.ground[pos_x+1,pos_y]==0)
+							if(g.ground[pos_x+1][pos_y]==0)
 							ti=3;
 							else 
 							ti=0;
@@ -506,9 +507,9 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 function init()	//初始化
 {
 	loadMap();
-	hero.setPosition(298,2);
-	hero.moveTo(1,399);
-	littles.setPosition(1,299);
+	hero.setPosition(2,298);
+	hero.moveTo(399,1);
+	littles.setPosition(299,1);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 }
 
