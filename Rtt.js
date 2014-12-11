@@ -24,7 +24,7 @@ function createMapArray() {
             g.thing[i][j] = 0;
         }
     }
-d
+
     //TODO：在新的屏幕尺寸上绘制新的地图
     /*旧地图   
    //河道
