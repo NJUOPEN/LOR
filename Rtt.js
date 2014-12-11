@@ -15,7 +15,7 @@ function createMapArray() {
         g.thing[i] = new Array(ScreenHeight);
     }
 
-    //规定：0为无法通过；1为道路；2为河流；3为基地；4为草丛
+    //规定：0为无法通过；1为道路；2为河流；3为基地；4为草丛; 5为防御塔
     //整个数组归零
     for (var i = 0; i < ScreenWidth; i++) {
         for (var j = 0; j < ScreenHeight; j++)
@@ -24,7 +24,7 @@ function createMapArray() {
             g.thing[i][j] = 0;
         }
     }
-
+d
     //TODO：在新的屏幕尺寸上绘制新的地图
     /*旧地图   
    //河道
@@ -243,6 +243,12 @@ function showMap(){
                 case 3:
                     cell.className += ' cell_Removable';
                     break;
+                case 4:
+                	cell.className += ' cell_Grass';
+                	break;
+                case 5:
+                	cell.className += ' cell_Tower';
+                	break;
             }
             cellLine.appendChild(cell);	//将新的一格追加到该行中
         }

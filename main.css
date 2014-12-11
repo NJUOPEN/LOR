@@ -61,3 +61,11 @@ ul,li{
 	background-color:inherit;
 	border-color:#fce94f;
 }
+#playArea .cellLine .cell_Grass{	//可移动物体
+	background-color:inherit;
+	border-color:#4e9a06;
+}
+#playArea .cellLine .cell_Tower{	//可移动物体
+	background-color:inherit;
+	border-color:#3465a4;
+}
