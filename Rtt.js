@@ -88,21 +88,36 @@ function createMapArray() {
    */
     //新地图 一路
     //上三角
-    var a = 50;
+    var a = 50, b = 70;
+    for (var i = 0; b >= 0; i++) {
+        for (var j = 200 - b; j <= 150 + b; j++)
+            g.ground[j][i] = 4;
+        b = b - 3;
+    }
     for (var i = 0; a >= 0; i++) {
         for (var j = 200 - a; j <= 150 + a; j++)
             g.ground[j][i] = 0;
         a=a-3;
     }
     //左三角
-    a = 30;
+    a = 30, b = 45;
+    for (var j = 0; b >= 0; j++) {
+        for (var i = 170 - b; i <= 140 + b; i++)
+            g.ground[j][i] = 4;
+        b -= 1;
+    }
     for (var j = 0; a >= 0; j++) {
         for (var i = 170 - a; i <= 140 + a; i++)
             g.ground[j][i] = 0;
             a -= 1;
     }
     //下三角
-    a = 80;
+    a = 80, b = 100;
+    for (var i = ScreenHeight - 1; b >= 0; i--) {
+        for (var j = 205 - b; j <= 145 + b; j++)
+            g.ground[j][i] = 4;
+        b -= 3;
+    }
     for(var i=ScreenHeight-1;a>=0;i--)
     {
         for (var j = 205 - a; j <= 145 + a; j++)
@@ -110,7 +125,12 @@ function createMapArray() {
         a -= 3;
     }
     //右三角
-    a = 60;
+    a = 60, b = 85;
+    for (var j = ScreenWidth - 1; b >= 0; j--) {
+        for (var i = 170 - b; i <= 110 + b; i++)
+            g.ground[j][i] = 4;
+        b -= 1;
+    }
     for (var j = ScreenWidth - 1; a >= 0; j--) {
         for (var i = 170 - a; i <= 110 + a; i++)
             g.ground[j][i] = 0;
@@ -128,15 +148,14 @@ function createMapArray() {
         for (var i = 0; i <= house_wide - 1; i++)
             g.ground[j][i] = 3;
     }
-    //草丛(先简陋的做成正方形)
-    for(var i=120;i<=180;i++)
-    {
-        for (var j = 110; j <= 140; j++)
-            g.ground[j][i] = 4;
+    //草丛
+    //先放一个菱形试试
+    for(var i=60;i<=160;i++){
+        for (var j = 80; j <= 130; j++) 
+            g.ground[j][i] = 4; 
     }
-    for(var i=220;i<=280;i++)
-    {
-        for (var j = 160; j <= 190; j++)
+    for (var i = 240; i >= 140; i--) {
+        for (var j = 290; j >= 240; j--)
             g.ground[j][i] = 4;
     }
 }
