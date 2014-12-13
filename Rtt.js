@@ -189,7 +189,6 @@ function mov_left(i, j) {
         i=i-1;
   }
 }
-
 function mov_right(i, j) {
 	var ID=g.thing[i][j];
     del(i, j);
@@ -207,7 +206,6 @@ function mov_up(i, j) {
         j=j-1
   }
 } 
-
 function mov_down(i, j) {
 	var ID=g.thing[i][j];
     del(i, j);
@@ -216,9 +214,6 @@ function mov_down(i, j) {
 	    j=j+1
   }
 }
-
-
-
 
 //在屏幕上显示这个二维数组   
 //供调试用
@@ -311,7 +306,49 @@ var hero={
 	pos_y:0,
 	tag_x:0,
 	tag_y:0,  //目的地
-	state:0,	//当前状态
+	state: 0,	//当前状态
+	hp: 0,//生命值
+	hp_max:0,//生命值的最大值
+	hp_re:0,//生命值的回复速度，每50ms的数值
+	att: 0,//攻击力
+	def:0,//防御力
+    harm_in:0,//收到的伤害数值
+    skill: new Array(),//技能数组,具体参考技能设定.txt
+    //自动回血的函数
+    basehp_re:function(){
+        hp += this.hp_re;
+    },
+
+    //试试一个攻击间隔
+    attack:function(ID){
+        var time=1;
+        if(time%5==1)
+            findSomethingByID(ID).harm_in=this.att-findSomethingByID(ID).def;
+        time++;
+    },
+
+    baseskill:function(ID){
+        switch (ID) {
+            case 1: baseskill_1(); break;
+            case 2: baseskill_2(); break;
+        };
+    },
+
+    baseskill_1: function () {
+        var old_hp = this.hp;
+        var time = 1;
+        if (time % 140 == 1) this.hp_re = this.hp_re + hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+    },
+    //技能数组：1持续时间 2冷却时间（CD） 3作用范围 
+    //4对移速的效果（有正负，百分数,改变而不是改变到） 
+    //5对攻击力的效果（百分数） 6对攻击力的效果（数值） 7受到伤害（变到（百分比））  
+    //8,造成伤害（数值） 
+	creatskill:function(){
+	    this.skill[1] = new array(5, 10, 0, 0.3, 0, 0, 0);
+	    this.skill[2] = new array(7, 12, 0, 0, 0, 0, 0.7, 0);
+	    this.skill[3] = new array(5, 15, 5, 0, 0, 0, 0, this.att * 1.15);
+	    this.skill[4] = new array(0,30,5,0,0,0,0,500);
+	},
 	
 	setPosition:function(x,y)
 	{
@@ -341,7 +378,8 @@ var hero={
 	{
 		var x=this.tag_x,y=this.tag_y;
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
-		move(x,y,this.ID);
+		move(x, y, this.ID);
+		basehp_re();
 		/*switch (this.state)
 		{
 			case 0:		//无动作
