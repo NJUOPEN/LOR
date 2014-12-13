@@ -237,38 +237,40 @@ function loadMap() {
 
 function showMap(){
 	var map = document.getElementById('playground'); 	//获取视图区
-    var table = document.createElement('div');	//新建一个表格，类型为div
+    var table = document.createElement('table');	//新建一个表格，类型为div
     table.id = 'playArea';
-    var cell, cellLine;
+    var cell, cellLine, cellClass;
     var i, j;
     for (j = 0; j < ScreenHeight; j++) {
-        cellLine = document.createElement('ul');	//新建一行，元素类型为ul
+        cellLine = document.createElement('tr');	//新建一行，元素类型为ul
         cellLine.className = 'cellLine';
         for (i = 0; i < ScreenWidth; i++) {
-            cell = document.createElement('li');	//新建一格，元素类型为li
+            cell = document.createElement('th');	//新建一格，元素类型为li
             cell.posX=i;
             cell.posY=j;
-            cell.className = 'cell';	//基础样式为cell
             switch (g.ground[i][j]) {
                 case 0:
-                    cell.className += ' cell_Blank';
+                    cellClass = ' cell_Blank';
                     break;
                 case 1:
-                    cell.className += ' cell_Road';
+                    cellClass = ' cell_Road';
                     break;
                 case 2:
-                    cell.className += ' cell_River';
+                    cellClass = ' cell_River';
                     break;
                 case 3:
-                    cell.className += ' cell_Removable';
+                    cellClass = ' cell_Removable';
                     break;
                 case 4:
-                	cell.className += ' cell_Grass';
+                	cellClass = ' cell_Grass';
                 	break;
                 case 5:
-                	cell.className += ' cell_Tower';
+                	cellClass = ' cell_Tower';
                 	break;
+                default:
+                	cellClass = '';
             }
+            cell.className = 'cell' + cellClass ;	//格子的样式为基础样式（cell）+扩展样式（cell_XXX）
             cellLine.appendChild(cell);	//将新的一格追加到该行中
         }
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
