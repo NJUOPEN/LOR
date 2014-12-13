@@ -413,7 +413,7 @@ var littles={
 
 
 
-function move(x,y,ID){       //重置移动函数，x，y为目的地，ID为移动对象ID
+function move(x,y,ID){
 	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != this.ID )) {   //目的无效
 			return false;
 		}
