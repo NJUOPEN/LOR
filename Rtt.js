@@ -164,6 +164,8 @@ function createMapArray() {
     //单位在thing上面移动
 //放置单位
 function set(i, j, ID) {
+    i=i-1;
+    j=j-1;
     var a = i+3, b = j+3;
     for (; i < a; i++) {
         for (; j < b; j++)
