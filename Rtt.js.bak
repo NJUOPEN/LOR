@@ -307,6 +307,8 @@ var hero={
 	ID:1,
 	pos_x:0,
 	pos_y:0,
+	tag_x:0,
+	tag_y:0,  //目的地
 	state:0,	//当前状态
 	
 	setPosition:function(x,y)
@@ -335,7 +337,9 @@ var hero={
 	},*/
 	doEvent:function()
 	{
-		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;			
+		var x=this.tag_x,y=this.tag_y;
+		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
+		move(x,y,this.ID);
 		/*switch (this.state)
 		{
 			case 0:		//无动作
@@ -348,79 +352,106 @@ var hero={
 }
 
 var littles={
-	var littles1={
+	littles1:{
 		ID:2,
 		pos_x:0,
 	  pos_y:0,
+	  tag_x:0,
+	  tag_y:0,
 	  
 	  setPosition:function(x,y){
 		  this.pos_x=x;
 		  this.pos_y=y;
 		  set(this.pos_x,this.pos_y,this.ID)
 	  },
-	  moveTo:function()
+	  doEvent:function(){
+		  var x=this.tag_x,y=this.tag_y;
+	    move(x,y,this.ID);
+	  }
   },
-	var littles2={
+	littles2:{
 		ID:3,
 		pos_x:0,
 	  pos_y:0,
+	  tag_x:0,
+	  tag_y:0,
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
 		  this.pos_y=y;
 		  set(this.pos_x,this.pos_y,this.ID)
 	  },
+	  doEvent:function(){
+		  var x=this.tag_x,y=this.tag_y;
+	    move(x,y,this.ID);
+	  }
   },
-	var littles3={
+	littles3:{
 		ID:4,
 		pos_x:0,
 	  pos_y:0,
+	  tag_x:0,
+	  tag_y:0,
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
 		  this.pos_y=y;
 		  set(this.pos_x,this.pos_y,this.ID)
 	  },
+	  doEvent:function(){
+		  var x=this.tag_x,y=this.tag_y;
+	    move(x,y,this.ID);
+	  }
 	},
-	var littles4={
+	littles4:{
 		ID:5,
 		pos_x:0,
 	  pos_y:0,
+	  tag_x:0,
+	  tag_y:0,
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
 		  this.pos_y=y;
 		  set(this.pos_x,this.pos_y,this.ID)
 	  },
+	  doEvent:function(){
+		  var x=this.tag_x,y=this.tag_y;
+	    move(x,y,this.ID);
+	  }
 	},
-	var littles5={
+	littles5:{
 		ID:6,
 		pos_x:0,
 	  pos_y:0,
+	  tag_x:0,
+	  tag_y:0,
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
 		  this.pos_y=y;
 		  set(this.pos_x,this.pos_y,this.ID)
 	  },
+	  doEvent:function(){
+		  var x=this.tag_x,y=this.tag_y;
+	    move(x,y,this.ID);
+	  }
 	},
 	
 
-	doEvent:function(){
-	
-	}
+
 }
 
 
 
-function move(x,y,ID){
-	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != this.ID )) {   //目的无效
+function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移动对象ID
+	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != findSomethingByID(id).ID )) {   //目的无效
 			return false;
 		}
 		//return;
 		var ti=0;
 		
-		var pos_x = findSomethingByID(ID).pos_x, pos_y = findSomethingByID(ID).pos_y;
+		var pos_x = findSomethingByID(id).pos_x, pos_y = findSomethingByID(id).pos_y;
 		//请注意：此函数中的pos_x、pos_y与hero类中的pos_x、pos_y不同
 		
 		if ((pos_x != x) ||(pos_y != y)) {
@@ -554,18 +585,19 @@ function move(x,y,ID){
 						
 					}
 			}
-			findSomethingByID(ID).state=1;
+			findSomethingByID(id).state=1;
 		}
-		else findSomethingByID(ID).state=0;
-}
-function moveTo(x,y,ID){
-	setInterval(move(x,y,ID),50);
+		else findSomethingByID(id).state=0;
 }
 
 function doEvent()	//总的事件处理函数；具体处理过程交给相关对象的doEvent函数
 {
 	hero.doEvent();
-	littles.doEvent();
+	littles.littles1.doEvent();
+	littles.littles2.doEvent();
+	littles.littles3.doEvent();
+	littles.littles4.doEvent();
+	littles.littles5.doEvent();
 	//XXX.doEvent();
 }
 
@@ -588,6 +620,10 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 			return;
 	}
 }
+function SetTarget(x,y,ID){
+	findSomethingByID(ID).tag_x=x;
+	findSomethingByID(ID).tag_y=y;
+}
 
 function init()	//初始化
 {
@@ -596,15 +632,15 @@ function init()	//初始化
 	moveTo(10,290,1);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 	setTimeout(littles.littles1.setPosition(2,298),1000);
-	moveTo(2,280,2);
+	SetTarget(2,280,2);
 	setTimeout(littles.littles2.setPosition(2,298),2000);
-	moveTo(5,285,3);
+	SetTarget(5,285,3);
 	setTimeout(littles.littles3.setPosition(2,298),3000);
-	moveTo(8,290,4);
+	SetTarget(8,290,4);
 	setTimeout(littles.littles4.setPosition(2,298),4000);
-	moveTo(10,295,5);
+	SetTarget(10,295,5);
 	setTimeout(littles.littles5.setPosition(2,298),5000);
-	moveTo(12,298,6);
+	SetTarget(12,298,6);
 }
 
 document.onReady=init();
