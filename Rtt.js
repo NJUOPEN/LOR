@@ -620,12 +620,13 @@ var littles={              //11至15为小兵
 
 
 function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移动对象ID
-	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != findSomethingByID(id).ID )) {   //目的无效
+	var obj=findSomethingByID(id);
+	if (!obj) return;
+	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
 			return false;
 		}
 		//return;
-		var obj=findSomethingByID(id);
-		if (!obj) return;
+
 		
 		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
 		
@@ -811,18 +812,24 @@ function init()	//初始化
 {
 	loadMap();
 	hero.setPosition(2,298);
-	moveTo(100,10,hero);
+	moveTo(20,280,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
-	setTimeout(littles.littles1.setPosition(2,298),1000);
-	moveTo(2,280,littles.littles11);
-	setTimeout(littles.littles2.setPosition(2,298),2000);
-	moveTo(5,285,littles.littles12);
-	setTimeout(littles.littles3.setPosition(2,298),3000);
-	moveTo(8,290,littles.littles13);
-	setTimeout(littles.littles4.setPosition(2,298),4000);
-	moveTo(10,295,littles.littles14);
-	setTimeout(littles.littles5.setPosition(2,298),5000);
-	moveTo(12,298,littles.littles15);
+	
+	setTimeout(littles.littles11.setPosition(2,298),1000);
+	setTimeout(moveTo(2,280,littles.littles11),1001);
+	
+	setTimeout(littles.littles12.setPosition(2,298),2000);
+	setTimeout(moveTo(5,285,littles.littles12),2001);
+	
+	setTimeout(littles.littles13.setPosition(2,298),3000);
+	setTimeout(moveTo(8,290,littles.littles13),3001);
+	
+	setTimeout(littles.littles14.setPosition(2,298),4000);
+	setTimeout(moveTo(10,295,littles.littles14),4001);
+	
+	setTimeout(littles.littles15.setPosition(2,298),5000);
+	setTimeout(moveTo(12,298,littles.littles15),5001);
+	
 }
 
 document.onReady=init();

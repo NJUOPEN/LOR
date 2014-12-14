@@ -433,7 +433,7 @@ function showMap(){
 	}
 }*/
 
-var hero={
+var hero={              //1至9为英雄（可能）
 
 	ID:1,
 	pos_x:0,
@@ -526,8 +526,8 @@ var hero={
 	},
 }
 
-var littles={
-	littles1:{
+var littles={              //11至15为小兵
+	littles11:{
 		ID:2,
 		pos_x:0,
 	  pos_y:0,
@@ -544,7 +544,7 @@ var littles={
 	    move(x,y,this.ID);
 	  }
   },
-	littles2:{
+	littles12:{
 		ID:3,
 		pos_x:0,
 	  pos_y:0,
@@ -561,7 +561,7 @@ var littles={
 	    move(x,y,this.ID);
 	  }
   },
-	littles3:{
+	littles13:{
 		ID:4,
 		pos_x:0,
 	  pos_y:0,
@@ -578,7 +578,7 @@ var littles={
 	    move(x,y,this.ID);
 	  }
 	},
-	littles4:{
+	littles14:{
 		ID:5,
 		pos_x:0,
 	  pos_y:0,
@@ -595,7 +595,7 @@ var littles={
 	    move(x,y,this.ID);
 	  }
 	},
-	littles5:{
+	littles15:{
 		ID:6,
 		pos_x:0,
 	  pos_y:0,
@@ -760,9 +760,9 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 					}
 			}
-			findSomethingByID(id).state=1;
+			obj.state=1;
 		}
-		else findSomethingByID(id).state=0;
+		else obj.state=0;
 		obj.pos_x=pos_x;
 		obj.pos_y=pos_y;
 		obj.ti=ti;
@@ -779,11 +779,11 @@ function moveTo(x,y,obj)
 function doEvent()	//总的事件处理函数；具体处理过程交给相关对象的doEvent函数
 {
 	hero.doEvent();
-	littles.littles1.doEvent();
-	littles.littles2.doEvent();
-	littles.littles3.doEvent();
-	littles.littles4.doEvent();
-	littles.littles5.doEvent();
+	littles.littles11.doEvent();
+	littles.littles12.doEvent();
+	littles.littles13.doEvent();
+	littles.littles14.doEvent();
+	littles.littles15.doEvent();
 	//XXX.doEvent();
 }
 
@@ -793,15 +793,15 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 		case 1:
 			return hero;
 		case 2:
-			return littles.littles1;
+			return littles.littles11;
 	  case 3:
-			return littles.littles2;
+			return littles.littles12;
 	  case 4:
-			return littles.littles3;
+			return littles.littles13;
 	  case 5:
-			return littles.littles4;
+			return littles.littles14;
 	  case 6:
-			return littles.littles5;									
+			return littles.littles15;									
 		default:
 			return;
 	}
@@ -811,18 +811,24 @@ function init()	//初始化
 {
 	loadMap();
 	hero.setPosition(2,298);
-	moveTo(100,10,hero);
+	moveTo(20,280,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
-	setTimeout(littles.littles1.setPosition(2,298),1000);
-	moveTo(2,280,littles.littles1);
-	setTimeout(littles.littles2.setPosition(2,298),2000);
-	moveTo(5,285,littles.littles2);
-	setTimeout(littles.littles3.setPosition(2,298),3000);
-	moveTo(8,290,littles.littles3);
-	setTimeout(littles.littles4.setPosition(2,298),4000);
-	moveTo(10,295,littles.littles4);
-	setTimeout(littles.littles5.setPosition(2,298),5000);
-	moveTo(12,298,littles.littles5);
+	
+	setTimeout(littles.littles11.setPosition(2,298),1000);
+	setTimeout(moveTo(2,280,littles.littles11),1001);
+	
+	setTimeout(littles.littles12.setPosition(2,298),2000);
+	setTimeout(moveTo(5,285,littles.littles12),2001);
+	
+	setTimeout(littles.littles13.setPosition(2,298),3000);
+	setTimeout(moveTo(8,290,littles.littles13),3001);
+	
+	setTimeout(littles.littles14.setPosition(2,298),4000);
+	setTimeout(moveTo(10,295,littles.littles14),4001);
+	
+	setTimeout(littles.littles15.setPosition(2,298),5000);
+	setTimeout(moveTo(12,298,littles.littles15),5001);
+	
 }
 
 document.onReady=init();
