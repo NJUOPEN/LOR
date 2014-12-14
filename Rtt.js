@@ -89,11 +89,13 @@ function createMapArray() {
     //新地图 一路
     //上三角
     var a = 50, b = 70;
+    /*
     for (var i = 0; b >= 0; i++) {
         for (var j = 200 - b; j <= 150 + b; j++)
             g.ground[j][i] = 4;
         b = b - 3;
     }
+    */
     for (var i = 0; a >= 0; i++) {
         for (var j = 200 - a; j <= 150 + a; j++)
             g.ground[j][i] = 0;
@@ -101,11 +103,13 @@ function createMapArray() {
     }
     //左三角
     a = 30, b = 45;
+    /*
     for (var j = 0; b >= 0; j++) {
         for (var i = 170 - b; i <= 140 + b; i++)
             g.ground[j][i] = 4;
         b -= 1;
     }
+    */
     for (var j = 0; a >= 0; j++) {
         for (var i = 170 - a; i <= 140 + a; i++)
             g.ground[j][i] = 0;
@@ -113,11 +117,13 @@ function createMapArray() {
     }
     //下三角
     a = 80, b = 100;
+    /*
     for (var i = ScreenHeight - 1; b >= 0; i--) {
         for (var j = 205 - b; j <= 145 + b; j++)
             g.ground[j][i] = 4;
         b -= 3;
     }
+    */
     for(var i=ScreenHeight-1;a>=0;i--)
     {
         for (var j = 205 - a; j <= 145 + a; j++)
@@ -126,11 +132,13 @@ function createMapArray() {
     }
     //右三角
     a = 60, b = 85;
+    /*
     for (var j = ScreenWidth - 1; b >= 0; j--) {
         for (var i = 170 - b; i <= 110 + b; i++)
             g.ground[j][i] = 4;
         b -= 1;
     }
+    */
     for (var j = ScreenWidth - 1; a >= 0; j--) {
         for (var i = 170 - a; i <= 110 + a; i++)
             g.ground[j][i] = 0;
