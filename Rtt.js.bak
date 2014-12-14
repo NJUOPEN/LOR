@@ -806,10 +806,6 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 			return;
 	}
 }
-function SetTarget(x,y,obj){	
-	obj.tag_x=x;
-	obj.tag_y=y;
-}
 
 function init()	//初始化
 {
