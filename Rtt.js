@@ -364,20 +364,20 @@ function printMap()
 
 function loadMap() {
     createMapArray();
-    showMap();
+    showMap();	//为了方便调试，如果不需要显示地图可以将本句注释，从而加快加载速度
 }
 
 function showMap(){
 	var map = document.getElementById('playground'); 	//获取视图区
-    var table = document.createElement('table');	//新建一个表格，类型为div
+    var table = document.createElement('table');	//新建一个表格，元素类型为table
     table.id = 'playArea';
     var cell, cellLine, cellClass;
     var i, j;
     for (j = 0; j < ScreenHeight; j++) {
-        cellLine = document.createElement('tr');	//新建一行，元素类型为ul
+        cellLine = document.createElement('tr');	//新建一行，元素类型为tr
         cellLine.className = 'cellLine';
         for (i = 0; i < ScreenWidth; i++) {
-            cell = document.createElement('th');	//新建一格，元素类型为li
+            cell = document.createElement('th');	//新建一格，元素类型为th
             cell.posX=i;
             cell.posY=j;
             switch (g.ground[i][j]) {
@@ -441,6 +441,7 @@ var hero={
 	pos_y:0,
 	tag_x:0,
 	tag_y:0,  //目的地
+	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
@@ -451,7 +452,7 @@ var hero={
     skill: new Array(),//技能数组,具体参考技能设定.txt
     //自动回血的函数
     basehp_re:function(){
-        hp += this.hp_re;
+        this.hp += this.hp_re;
     },
 
     //试试一个攻击间隔
@@ -472,7 +473,7 @@ var hero={
     baseskill_1: function () {
         var old_hp = this.hp;
         var time = 1;
-        if (time % 140 == 1) this.hp_re = this.hp_re + hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+        if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
     },
     //技能数组：1持续时间 2冷却时间（CD） 3作用范围 
     //4对移速的效果（有正负，百分数,改变而不是改变到） 
@@ -490,7 +491,7 @@ var hero={
 		this.pos_x=x;
 		this.pos_y=y;
 		set(this.pos_x,this.pos_y,this.ID)
-	},		
+	},
 	/*tryNextStep:function(){
 		if (!this.move_path || this.move_path.length<1)	//移动完成
 		{
@@ -514,7 +515,7 @@ var hero={
 		var x=this.tag_x,y=this.tag_y;
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
 		move(x, y, this.ID);
-		basehp_re();
+		this.basehp_re();
 		/*switch (this.state)
 		{
 			case 0:		//无动作
@@ -624,15 +625,16 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 			return false;
 		}
 		//return;
-		var ti=0;
+		var obj=findSomethingByID(id);
+		if (!obj) return;
 		
-		var pos_x = findSomethingByID(id).pos_x, pos_y = findSomethingByID(id).pos_y;
+		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
 		
 		if ((pos_x != x) ||(pos_y != y)) {
 				if(ti==0){
 					if(y<pos_y){                                  //ti：0左右（交替）1上下（交替）2左右（直线）3上下（直线）
 						if(g.ground[pos_x][pos_y-1] != 0){
-							mov_up(pos_x,pos_y);
+							mov_up(pos_x,pos_y--);	//同步更新pos_x、pos_y，便于移动后将新坐标赋给obj；下同
 							ti++;
 						}
 						else
@@ -641,7 +643,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					}
 					else if(y>pos_y){
 						if(g.ground[pos_x][pos_y+1] != 0){
-							mov_down(pos_x,pos_y);
+							mov_down(pos_x,pos_y++);
 							ti++;}
 						else 
 						ti=2;
@@ -656,7 +658,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					if(x>pos_x){
 						if(g.ground[pos_x+1][pos_y] != 0)
 						{
-							mov_right(pos_x,pos_y);
+							mov_right(pos_x++,pos_y);
 							ti=0;
 						}
 						else ti=3;
@@ -664,7 +666,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					}
 					else if(x<pos_x){
 						if(g.ground[pos_x-1][pos_y] != 0){
-							mov_left(pos_x,pos_y);
+							mov_left(pos_x--,pos_y);
 							ti=0;
 						}
 						else 
@@ -677,7 +679,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 				else if(ti==2){                          //直线行走至上下无阻挡
 					if (x<pos_x){
 						if(y<pos_y){
-							mov_left(pos_x,pos_y);
+							mov_left(pos_x--,pos_y);
 							if(g.ground[pos_x][pos_y-1]==0)
 							ti=2;
 							else 
@@ -685,7 +687,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 							
 						}
 						if(y>pos_y){
-							mov_left(pos_x,pos_y);
+							mov_left(pos_x--,pos_y);
 							if(g.ground[pos_x][pos_y+1]==0)
 							ti=2;
 							else 
@@ -697,7 +699,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					}
 					if (x>pos_x){                    
 						if(y<pos_y){
-							mov_right(pos_x,pos_y);
+							mov_right(pos_x++,pos_y);
 							if(g.ground[pos_x][pos_y-1]==0)
 							ti=2;
 							else 
@@ -705,7 +707,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 							
 						}
 						if(y>pos_y){
-							mov_right(pos_x,pos_y);
+							mov_right(pos_x++,pos_y);
 							if(g.ground[pos_x][pos_y+1]==0)
 							ti=2;
 							else 
@@ -720,7 +722,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 				else if(ti==3){
 					if (y<pos_y){
 						if(x<pos_x){
-							mov_up(pos_x,pos_y);
+							mov_up(pos_x,pos_y--);
 							if(g.ground[pos_x-1][pos_y]==0)
 							ti=3;
 							else 
@@ -728,7 +730,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 							
 						}
 						if(x>pos_x){
-							mov_up(pos_x,pos_y);
+							mov_up(pos_x,pos_y--);
 							if(g.ground[pos_x+1][pos_y]==0)
 							ti=3;
 							else 
@@ -740,7 +742,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					}
 					if (y>pos_y){
 						if(x<pos_x){
-							mov_down(pos_x,pos_y);
+							mov_down(pos_x,pos_y++);
 							if(g.ground[pos_x-1][pos_y]==0)
 							ti=3;
 							else 
@@ -748,7 +750,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 							
 						}
 						if(x>pos_x){
-							mov_down(pos_x,pos_y);
+							mov_down(pos_x,pos_y++);
 							if(g.ground[pos_x+1][pos_y]==0)
 							ti=3;
 							else 
@@ -762,6 +764,17 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 			findSomethingByID(id).state=1;
 		}
 		else findSomethingByID(id).state=0;
+		obj.pos_x=pos_x;
+		obj.pos_y=pos_y;
+		obj.ti=ti;
+}
+
+function moveTo(x,y,obj)
+{
+		//此处只设定人物状态，目标的有效性交给move函数判断
+		obj.tag_x=x;
+		obj.tag_y=y;
+		obj.state=1;
 }
 
 function doEvent()	//总的事件处理函数；具体处理过程交给相关对象的doEvent函数
@@ -794,27 +807,27 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 			return;
 	}
 }
-function SetTarget(x,y,ID){
-	findSomethingByID(ID).tag_x=x;
-	findSomethingByID(ID).tag_y=y;
+function SetTarget(x,y,obj){	
+	obj.tag_x=x;
+	obj.tag_y=y;
 }
 
 function init()	//初始化
 {
 	loadMap();
 	hero.setPosition(2,298);
-	moveTo(10,290,1);
+	moveTo(100,10,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 	setTimeout(littles.littles1.setPosition(2,298),1000);
-	SetTarget(2,280,2);
+	SetTarget(2,280,littles.littles1);
 	setTimeout(littles.littles2.setPosition(2,298),2000);
-	SetTarget(5,285,3);
+	SetTarget(5,285,littles.littles2);
 	setTimeout(littles.littles3.setPosition(2,298),3000);
-	SetTarget(8,290,4);
+	SetTarget(8,290,littles.littles3);
 	setTimeout(littles.littles4.setPosition(2,298),4000);
-	SetTarget(10,295,5);
+	SetTarget(10,295,littles.littles4);
 	setTimeout(littles.littles5.setPosition(2,298),5000);
-	SetTarget(12,298,6);
+	SetTarget(12,298,littles.littles5);
 }
 
 document.onReady=init();
