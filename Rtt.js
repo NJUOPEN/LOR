@@ -18,8 +18,7 @@ function createMapArray() {
     //规定：0为无法通过；1为道路；2为河流；3为基地；4为草丛; 5为防御塔
     //整个数组归零
     for (var i = 0; i < ScreenWidth; i++) {
-        for (var j = 0; j < ScreenHeight; j++)
-        {
+        for (var j = 0; j < ScreenHeight; j++){
             g.ground[i][j] = 1;
             g.thing[i][j] = 0;
         }
@@ -274,7 +273,7 @@ function createMapArray() {
 	{
 	   for(var j=b-20;j<=b+20;j++)
 	   {
-		   if(((i-a)*(i-a)+(j-b)*(j-b))<=400)
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=404)
 		   {
 			  g.ground[i][j]=5;
 		   }   
@@ -287,7 +286,7 @@ function createMapArray() {
 	{
 	   for(var j=b-20;j<=b+20;j++)
 	   {
-		   if(((i-a)*(i-a)+(j-b)*(j-b))<=400)
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=404)
 		   {
 			  g.ground[i][j]=5;
 		   }   
@@ -807,10 +806,6 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 			return;
 	}
 }
-function SetTarget(x,y,obj){	
-	obj.tag_x=x;
-	obj.tag_y=y;
-}
 
 function init()	//初始化
 {
@@ -819,15 +814,15 @@ function init()	//初始化
 	moveTo(100,10,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 	setTimeout(littles.littles1.setPosition(2,298),1000);
-	SetTarget(2,280,littles.littles1);
+	moveTo(2,280,littles.littles1);
 	setTimeout(littles.littles2.setPosition(2,298),2000);
-	SetTarget(5,285,littles.littles2);
+	moveTo(5,285,littles.littles2);
 	setTimeout(littles.littles3.setPosition(2,298),3000);
-	SetTarget(8,290,littles.littles3);
+	moveTo(8,290,littles.littles3);
 	setTimeout(littles.littles4.setPosition(2,298),4000);
-	SetTarget(10,295,littles.littles4);
+	moveTo(10,295,littles.littles4);
 	setTimeout(littles.littles5.setPosition(2,298),5000);
-	SetTarget(12,298,littles.littles5);
+	moveTo(12,298,littles.littles5);
 }
 
 document.onReady=init();

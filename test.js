@@ -4,6 +4,6 @@ function cell_onclick(e)
 	if (window.event) e=window.event
 	var obj=e.srcElement;
 	if (!obj) obj=e.target		//For Firefox
-  SetTarget(obj.posX,obj.posY,1)
+  moveTo(obj.posX,obj.posY,hero);
 }
 document.getElementById('playArea').onclick=cell_onclick;
