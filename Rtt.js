@@ -137,7 +137,7 @@ function createMapArray() {
         a -= 1;
     }
     //基地左下
-    var house_wide=20
+    var house_wide=20;
     for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
     {
         for (var j = 0; j <= house_wide - 1; j++)
@@ -148,16 +148,143 @@ function createMapArray() {
         for (var i = 0; i <= house_wide - 1; i++)
             g.ground[j][i] = 3;
     }
+    
     //草丛
-    //先放一个菱形试试
-    for(var i=60;i<=160;i++){
-        for (var j = 80; j <= 130; j++) 
-            g.ground[j][i] = 4; 
+    	
+	//上草丛（方）
+    for(var i=150,j=70;i>=90,j<=130;i=i-15,j=j+15)
+    {
+		   for(var a=i;a<=i+20;a++)
+		   {
+			  for(var b=j;b<=j+20;b++)
+			  {
+				  g.ground[a][b]=4;
+		      }   
+		   }	
     }
-    for (var i = 240; i >= 140; i--) {
-        for (var j = 290; j >= 240; j--)
-            g.ground[j][i] = 4;
+	
+	//下草从（方）
+	
+    for(var i=220,j=220;i<=280,j>=160;i=i+15,j=j-15)
+    {
+		for(var a=i;a<=i+20;a++)
+		{
+       	   for(var b=j;b<=j+20;b++)
+		   {
+		      g.ground[a][b]=4;
+		   } 
+		}
     }
+	
+	//上草丛（圆）
+	
+    b=312;
+    for(a=150;a<=200;a=a+12)
+    {   
+    	b=b-12;
+		for(var i=a-10;i<=a+10;i++)
+		{
+	   		for(var j=b-10;j<=b+10;j++)
+	   		{
+		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
+		        {		
+			        g.ground[i][j]=4;
+			        g.ground[400-i][j]=4;
+		    	}   
+	        }	
+	    } 
+	}
+	
+	//下草丛(圆)
+	
+	b=-12;
+    for(a=150;a<=200;a=a+12)
+    {   
+    	b=b+12;
+		for(var i=a-10;i<=a+10;i++)
+		{
+	   		for(var j=b-10;j<=b+10;j++)
+	   		{
+		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
+		        {		
+				    g.ground[i][j]=4;
+			        g.ground[400-i][j]=4;
+		    	}   
+	        }	
+	    } 
+	}
+	
+	//左草从
+	
+	b=88;
+	for(a=0;a<=50;a=a+12)
+	{  
+ 		b=b+12;
+		for(var i=a-10;i<=a+10;i++)
+		{
+	   		for(var j=b-10;j<=b+10;j++)
+	   		{
+				if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
+		        {	
+				    if(i>=0)
+					{		
+				    	g.ground[i][j]=4;
+			        	g.ground[i][300-j]=4;
+					}
+				}
+		    	  
+	        }	
+	    }
+	}
+	
+	//右草从
+	
+    b=88;
+	for(a=400;a>=350;a=a-12)
+	{  
+ 		b=b+12;
+		for(var i=a-10;i<=a+10;i++)
+		{
+	   		for(var j=b-10;j<=b+10;j++)
+	   		{
+				if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
+		        {	if(i<=400)	
+					{
+				    	g.ground[i][j]=4;
+			        	g.ground[i][300-j]=4;
+					}
+				}
+		    	  
+	        }	
+	    }
+	}
+
+	//我方塔的位置
+	a=100;
+	b=200;
+	for(var i=a-20;i<=a+20;i++)
+	{
+	   for(var j=b-20;j<=b+20;j++)
+	   {
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=400)
+		   {
+			  g.ground[i][j]=5;
+		   }   
+	   }	
+	}  
+	//敌方塔的位置	
+	a=300;
+	b=100;
+	for(var i=a-20;i<=a+20;i++)
+	{
+	   for(var j=b-20;j<=b+20;j++)
+	   {
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=400)
+		   {
+			  g.ground[i][j]=5;
+		   }   
+	   }	
+	}
 }
 
 //一下为所有物体通用的移动函数
