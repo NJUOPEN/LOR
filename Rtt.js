@@ -346,6 +346,8 @@ function set(i, j, ID) {
 }
 //撤销一个单位
 function del(i, j) {
+    i=i-1;
+    j=j-1;
     var a = i+3, b = j+3;
     for (; i < a; i++) {
         for (; j < b; j++)
@@ -471,6 +473,8 @@ function showMap(){
 	}
 }*/
 
+var time=0;
+
 var hero={              //1至9为英雄（可能）
 
 	ID:1,
@@ -488,29 +492,32 @@ var hero={              //1至9为英雄（可能）
     harm_in:0,//收到的伤害数值
     skill: new Array(),//技能数组,具体参考技能设定.txt
     //自动回血的函数
-    basehp_re:function(){
+    basehp_re: function () {
         this.hp += this.hp_re;
     },
 
-    //试试一个攻击间隔
+    //攻击间隔
     attack:function(ID){
-        var time=1;
-        if(time%5==1)
+        //var time=1;
+        //if(time%5==1)
+        if(ID!=0)
             findSomethingByID(ID).harm_in=this.att-findSomethingByID(ID).def;
-        time++;
+        //time++;
     },
-
-    baseskill:function(ID){
-        switch (ID) {
-            case 1: baseskill_1(); break;
-            case 2: baseskill_2(); break;
-        };
+    //被动基本技能
+    baseskill:function(){
+        //switch (ID) {
+           // case 1: baseskill_1(); break;
+        //case 2: baseskill_2(); break;
+        baseskill_1();
+        baseskill_2();
     },
 
     baseskill_1: function () {
         var old_hp = this.hp;
-        var time = 1;
-        if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+        //var time = 1;
+        //if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+        //没想好
     },
     //技能数组：1持续时间 2冷却时间（CD） 3作用范围 
     //4对移速的效果（有正负，百分数,改变而不是改变到） 
@@ -522,7 +529,17 @@ var hero={              //1至9为英雄（可能）
 	    this.skill[3] = new array(5, 15, 5, 0, 0, 0, 0, this.att * 1.15);
 	    this.skill[4] = new array(0,30,5,0,0,0,0,500);
 	},
-	
+    //处理输入的伤害值
+	deal_harm:function(){
+	    if (this.harm_in >= this.hp) this.hp = 0;
+	    else this.hp -= this.harm_in;
+	},
+
+    //血量观察函数
+	def_hp:function(){
+	    if (this.hp == 0) del(this.pos_x, this.pos_y);
+	},
+
 	setPosition:function(x,y)
 	{
 		this.pos_x=x;
@@ -553,6 +570,7 @@ var hero={              //1至9为英雄（可能）
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
 		move(x, y, this.ID);
 		this.basehp_re();
+		baseskill();
 		/*switch (this.state)
 		{
 			case 0:		//无动作
@@ -823,7 +841,8 @@ function doEvent()	//总的事件处理函数；具体处理过程交给相关�
 	littles.littles13.doEvent();
 	littles.littles14.doEvent();
 	littles.littles15.doEvent();
-	//XXX.doEvent();
+    //XXX.doEvent();
+	time++;
 }
 
 function findSomethingByID(ID)	//通过ID获取具体的对象
