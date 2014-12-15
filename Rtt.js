@@ -473,6 +473,25 @@ function showMap(){
 	}
 }*/
 
+//创建控制区
+function showSkillArea(){
+	var map=document.getElementById('playground');
+	var table=document.getElementById('playArea');
+	if (!table) return;
+	var skill=document.createElement('div');
+	skill.id='skillArea';
+	skill.innerHTML='技能区';
+	for (var i=1;i<=4;i++)
+	{
+		var skillCell=document.createElement('div');
+		skillCell.className='skillButton';
+		skillCell.skillNum=i;
+		skillCell.innerHTML='技能'+i;
+		skill.appendChild(skillCell);
+	}
+	map.insertBefore(skill,table);
+}
+
 var time=0;
 
 var hero={              //1至9为英雄（可能）
@@ -509,8 +528,8 @@ var hero={              //1至9为英雄（可能）
         //switch (ID) {
            // case 1: baseskill_1(); break;
         //case 2: baseskill_2(); break;
-        baseskill_1();
-        baseskill_2();
+        this.baseskill_1();
+        //this.baseskill_2();
     },
 
     baseskill_1: function () {
@@ -570,7 +589,7 @@ var hero={              //1至9为英雄（可能）
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
 		move(x, y, this.ID);
 		this.basehp_re();
-		baseskill();
+		this.baseskill();
 		/*switch (this.state)
 		{
 			case 0:		//无动作
@@ -868,6 +887,7 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 function init()	//初始化
 {
 	loadMap();
+	showSkillArea();
 	hero.setPosition(2,298);
 	moveTo(20,280,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
