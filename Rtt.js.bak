@@ -1,5 +1,6 @@
-var ScreenWidth=400, ScreenHeight=300;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为800×600
+var ScreenWidth=300, ScreenHeight=200;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为600×400
 var g={ground:0,thing:0};
+var groundX,groundY;//绘图区在整个页面的绝对坐标
 var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
 //其中ground代表地面；thing代表站在该处的物体 1为有物体
@@ -85,16 +86,16 @@ function createMapArray() {
        }
    
    */
-    //新地图 一路
-    //上三角
-    var a = 50, b = 70;
-    /*
+    //新地图 
+ 
+    /*var a = 50, b = 70;
+    
     for (var i = 0; b >= 0; i++) {
         for (var j = 200 - b; j <= 150 + b; j++)
             g.ground[j][i] = 4;
         b = b - 3;
     }
-    */
+    
     for (var i = 0; a >= 0; i++) {
         for (var j = 200 - a; j <= 150 + a; j++)
             g.ground[j][i] = 0;
@@ -102,13 +103,13 @@ function createMapArray() {
     }
     //左三角
     a = 30, b = 45;
-    /*
+    
     for (var j = 0; b >= 0; j++) {
         for (var i = 170 - b; i <= 140 + b; i++)
             g.ground[j][i] = 4;
         b -= 1;
     }
-    */
+    
     for (var j = 0; a >= 0; j++) {
         for (var i = 170 - a; i <= 140 + a; i++)
             g.ground[j][i] = 0;
@@ -116,13 +117,13 @@ function createMapArray() {
     }
     //下三角
     a = 80, b = 100;
-    /*
+    
     for (var i = ScreenHeight - 1; b >= 0; i--) {
         for (var j = 205 - b; j <= 145 + b; j++)
             g.ground[j][i] = 4;
         b -= 3;
     }
-    */
+    
     for(var i=ScreenHeight-1;a>=0;i--)
     {
         for (var j = 205 - a; j <= 145 + a; j++)
@@ -131,18 +132,58 @@ function createMapArray() {
     }
     //右三角
     a = 60, b = 85;
-    /*
+    
     for (var j = ScreenWidth - 1; b >= 0; j--) {
         for (var i = 170 - b; i <= 110 + b; i++)
             g.ground[j][i] = 4;
         b -= 1;
     }
-    */
+    
     for (var j = ScreenWidth - 1; a >= 0; j--) {
         for (var i = 170 - a; i <= 110 + a; i++)
             g.ground[j][i] = 0;
         a -= 1;
+    }*/
+    
+           //新地图
+    //上三角
+    for(var j=0;j<50;j++)
+    {
+	    for(var i=150+j;i<250-j;i++)
+	    {
+		   g.ground[i][j]=0;
+	    }
+	}
+    //左三角
+	for(var i=0;i<50;i++)
+	{
+	    for(var j=100+i;j<=200-i;j++)
+		{
+		    g.ground[i][j]=0;
+	    }	
     }
+
+    //下三角
+	    for(var j=250;j<300;j++)
+    {
+	    for(var i=450-j;i<j-50;i++)
+	    {
+		   g.ground[i][j]=0;
+	    }
+	}
+	
+    //右三角
+	//FIXME:修改参数
+	/*
+    for(var i=350;i<400;i++)
+	{
+	    for(var j=500-i;j<=i-200;j++)
+		{
+		    g.ground[i][j]=0;
+	    }	
+    }
+    */
+    
     //基地左下
     var house_wide=20;
     for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
@@ -245,7 +286,8 @@ function createMapArray() {
 	}
 	
 	//右草从
-	
+	//FIXME：修改参数
+	/*
     b=88;
 	for(a=400;a>=350;a=a-12)
 	{  
@@ -265,6 +307,7 @@ function createMapArray() {
 	        }	
 	    }
 	}
+	*/
 
 	//我方塔的位置
 	a=100;
@@ -279,7 +322,9 @@ function createMapArray() {
 		   }   
 	   }	
 	}  
-	//敌方塔的位置	
+	//敌方塔的位置
+	//FIXME：修改参数
+	/*	
 	a=300;
 	b=100;
 	for(var i=a-20;i<=a+20;i++)
@@ -292,6 +337,7 @@ function createMapArray() {
 		   }   
 	   }	
 	}
+	*/
 }
 
 //一下为所有物体通用的移动函数
@@ -305,14 +351,19 @@ function set(i, j, ID) {
         for (; j < b; j++)
             g.thing[i][j] = ID;
     }
+    //setImage(i,j,ID,1);
+    
 }
 //撤销一个单位
 function del(i, j) {
+    i=i-1;
+    j=j-1;
     var a = i+3, b = j+3;
     for (; i < a; i++) {
         for (; j < b; j++)
             g.thing[i][j] = 0;
     }
+    //setImage(i,j,0);
 }
 //物体的基本移动
 function mov_left(i, j) {
@@ -407,6 +458,8 @@ function showMap(){
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
     }
     map.appendChild(table);	//将完整的表格追加到视图区
+    groundX=table.offsetLeft;
+    groundY=table.offsetTop;
 }
 
 /*function updateMap(){
@@ -433,6 +486,44 @@ function showMap(){
 	}
 }*/
 
+/*
+function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片放置到(x,y)中
+	var table=document.getElementById('playArea');
+	if (ID==0)
+	{
+		table.childNodes[x].childNodes[y].innerHTML = '';
+	}
+	else
+	{
+		var img=document.createElement('img');
+		img.className='image_general';
+		img.src = './image/' + ID + '-' + state + '.png';
+		table.childNodes[x].childNodes[y].appendChild(img);
+	}
+}
+*/
+
+//创建控制区
+function showSkillArea(){
+	var map=document.getElementById('playground');
+	var table=document.getElementById('playArea');
+	if (!table) return;
+	var skill=document.createElement('div');
+	skill.id='skillArea';
+	//skill.innerHTML='技能区';
+	for (var i=1;i<=4;i++)
+	{
+		var skillCell=document.createElement('div');
+		skillCell.className='skillButton';
+		skillCell.skillNum=i;
+		skillCell.innerHTML='技能'+i;
+		skill.appendChild(skillCell);
+	}
+	map.insertBefore(skill,table);
+}
+
+var time=0;
+
 var hero={              //1至9为英雄（可能）
 
 	ID:1,
@@ -442,6 +533,7 @@ var hero={              //1至9为英雄（可能）
 	tag_y:0,  //目的地
 	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
+	obj_state:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
 	hp_re:0,//生命值的回复速度，每50ms的数值
@@ -449,30 +541,34 @@ var hero={              //1至9为英雄（可能）
 	def:0,//防御力
     harm_in:0,//收到的伤害数值
     skill: new Array(),//技能数组,具体参考技能设定.txt
+    image:null,
     //自动回血的函数
-    basehp_re:function(){
+    basehp_re: function () {
         this.hp += this.hp_re;
     },
 
-    //试试一个攻击间隔
+    //攻击间隔
     attack:function(ID){
-        var time=1;
-        if(time%5==1)
+        //var time=1;
+        //if(time%5==1)
+        if(ID!=0)
             findSomethingByID(ID).harm_in=this.att-findSomethingByID(ID).def;
-        time++;
+        //time++;
     },
-
-    baseskill:function(ID){
-        switch (ID) {
-            case 1: baseskill_1(); break;
-            case 2: baseskill_2(); break;
-        };
+    //被动基本技能
+    baseskill:function(){
+        //switch (ID) {
+           // case 1: baseskill_1(); break;
+        //case 2: baseskill_2(); break;
+        this.baseskill_1();
+        //this.baseskill_2();
     },
 
     baseskill_1: function () {
         var old_hp = this.hp;
-        var time = 1;
-        if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+        //var time = 1;
+        //if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
+        //没想好
     },
     //技能数组：1持续时间 2冷却时间（CD） 3作用范围 
     //4对移速的效果（有正负，百分数,改变而不是改变到） 
@@ -484,12 +580,22 @@ var hero={              //1至9为英雄（可能）
 	    this.skill[3] = new array(5, 15, 5, 0, 0, 0, 0, this.att * 1.15);
 	    this.skill[4] = new array(0,30,5,0,0,0,0,500);
 	},
-	
+    //处理输入的伤害值
+	deal_harm:function(){
+	    if (this.harm_in >= this.hp) this.hp = 0;
+	    else this.hp -= this.harm_in;
+	},
+
+    //血量观察函数
+	def_hp:function(){
+	    if (this.hp == 0) del(this.pos_x, this.pos_y);
+	},
+
 	setPosition:function(x,y)
 	{
 		this.pos_x=x;
 		this.pos_y=y;
-		set(this.pos_x,this.pos_y,this.ID)
+		set(this.pos_x,this.pos_y,this.ID);
 	},
 	/*tryNextStep:function(){
 		if (!this.move_path || this.move_path.length<1)	//移动完成
@@ -513,16 +619,16 @@ var hero={              //1至9为英雄（可能）
 	{
 		var x=this.tag_x,y=this.tag_y;
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
-		move(x, y, this.ID);
 		this.basehp_re();
-		/*switch (this.state)
+		this.baseskill();
+		switch (this.state)
 		{
 			case 0:		//无动作
 				return;
 			case 1:		//移动状态
-				this.tryNextStep();
+				move(x, y, this.ID);
 				return;
-		}*/
+		}
 	},
 }
 
@@ -620,12 +726,13 @@ var littles={              //11至15为小兵
 
 
 function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移动对象ID
-	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != findSomethingByID(id).ID )) {   //目的无效
+	var obj=findSomethingByID(id);
+	if (!obj) return;
+	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
 			return false;
 		}
 		//return;
-		var obj=findSomethingByID(id);
-		if (!obj) return;
+
 		
 		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
 		
@@ -760,12 +867,35 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 					}
 			}
+			if (obj.state!=1) obj.state_changed=true;
 			obj.state=1;
 		}
-		else obj.state=0;
+		else
+		{
+			if (obj.state!=0) obj.state_changed=true;
+			obj.state=0;
+		}
 		obj.pos_x=pos_x;
 		obj.pos_y=pos_y;
 		obj.ti=ti;
+		if(!obj.image)
+		{
+			obj.image=document.createElement('img');
+			obj.image.className='image_general';
+			obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
+			obj.image.style.left=groundX + obj.pos_x + 'px';
+			obj.image.style.top=groundY + obj.pos_y + 'px';
+			document.getElementById('playArea').appendChild(obj.image);
+		}
+		else
+		{
+			obj.image.style.left=groundX + obj.pos_x + 'px';
+			obj.image.style.top=groundY + obj.pos_y + 'px';
+			if (obj.state_changed)
+			{
+				obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
+			}
+		}
 }
 
 function moveTo(x,y,obj)
@@ -784,7 +914,8 @@ function doEvent()	//总的事件处理函数；具体处理过程交给相关�
 	littles.littles13.doEvent();
 	littles.littles14.doEvent();
 	littles.littles15.doEvent();
-	//XXX.doEvent();
+    //XXX.doEvent();
+	time++;
 }
 
 function findSomethingByID(ID)	//通过ID获取具体的对象
@@ -810,25 +941,28 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 function init()	//初始化
 {
 	loadMap();
-	hero.setPosition(2,298);
-	moveTo(20,280,hero);
-	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
+	showSkillArea();
 	
-	setTimeout(littles.littles11.setPosition(2,298),1000);
-	setTimeout(moveTo(2,280,littles.littles11),1001);
-	
-	setTimeout(littles.littles12.setPosition(2,298),2000);
-	setTimeout(moveTo(5,285,littles.littles12),2001);
-	
-	setTimeout(littles.littles13.setPosition(2,298),3000);
-	setTimeout(moveTo(8,290,littles.littles13),3001);
-	
-	setTimeout(littles.littles14.setPosition(2,298),4000);
-	setTimeout(moveTo(10,295,littles.littles14),4001);
-	
-	setTimeout(littles.littles15.setPosition(2,298),5000);
-	setTimeout(moveTo(12,298,littles.littles15),5001);
-	
+	inited=true;
 }
-
-document.onReady=init();
+function ready()
+{
+	hero.setPosition(90,198);
+	moveTo(280,20,hero);
+	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
+	
+	setTimeout(littles.littles11.setPosition(70,280),1000);
+	setTimeout(moveTo(280,2,littles.littles11),1001);
+	
+	setTimeout(littles.littles12.setPosition(70,280),2000);
+	setTimeout(moveTo(285,5,littles.littles12),2001);
+	
+	setTimeout(littles.littles13.setPosition(70,280),3000);
+	setTimeout(moveTo(290,8,littles.littles13),3001);
+	
+	setTimeout(littles.littles14.setPosition(70,280),4000);
+	setTimeout(moveTo(295,10,littles.littles14),4001);
+	
+	setTimeout(littles.littles15.setPosition(70,298),5000);
+	setTimeout(moveTo(298,12,littles.littles15),280);
+}

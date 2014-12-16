@@ -634,7 +634,7 @@ var hero={              //1至9为英雄（可能）
 
 var littles={              //11至15为小兵
 	littles11:{
-		ID:2,
+		ID:11,
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
@@ -651,7 +651,7 @@ var littles={              //11至15为小兵
 	  }
   },
 	littles12:{
-		ID:3,
+		ID:12,
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
@@ -668,7 +668,7 @@ var littles={              //11至15为小兵
 	  }
   },
 	littles13:{
-		ID:4,
+		ID:13,
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
@@ -685,7 +685,7 @@ var littles={              //11至15为小兵
 	  }
 	},
 	littles14:{
-		ID:5,
+		ID:14,
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
@@ -702,7 +702,7 @@ var littles={              //11至15为小兵
 	  }
 	},
 	littles15:{
-		ID:6,
+		ID:15,
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
