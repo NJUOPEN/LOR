@@ -533,6 +533,7 @@ var hero={              //1至9为英雄（可能）
 	tag_y:0,  //目的地
 	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
+	obj_state:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
 	hp_re:0,//生命值的回复速度，每50ms的数值
@@ -618,17 +619,16 @@ var hero={              //1至9为英雄（可能）
 	{
 		var x=this.tag_x,y=this.tag_y;
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
-		move(x, y, this.ID);
 		this.basehp_re();
 		this.baseskill();
-		/*switch (this.state)
+		switch (this.state)
 		{
 			case 0:		//无动作
 				return;
 			case 1:		//移动状态
-				this.tryNextStep();
+				move(x, y, this.ID);
 				return;
-		}*/
+		}
 	},
 }
 
@@ -735,7 +735,6 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 
 		
 		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
-		var state_changed=false;
 		
 		if ((pos_x != x) ||(pos_y != y)) {
 				if(ti==0){
@@ -868,12 +867,12 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 					}
 			}
-			if (obj.state!=1) state_changed=true;
+			if (obj.state!=1) obj.state_changed=true;
 			obj.state=1;
 		}
 		else
 		{
-			if (obj.state!=0) state_changed=true;
+			if (obj.state!=0) obj.state_changed=true;
 			obj.state=0;
 		}
 		obj.pos_x=pos_x;
@@ -892,7 +891,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 		{
 			obj.image.style.left=groundX + obj.pos_x + 'px';
 			obj.image.style.top=groundY + obj.pos_y + 'px';
-			if (state_changed)
+			if (obj.state_changed)
 			{
 				obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
 			}
@@ -948,24 +947,22 @@ function init()	//初始化
 }
 function ready()
 {
-	hero.setPosition(2,198);
-	moveTo(20,180,hero);
+	hero.setPosition(90,198);
+	moveTo(280,20,hero);
 	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
 	
-	setTimeout(littles.littles11.setPosition(2,198),1000);
+	setTimeout(littles.littles11.setPosition(70,280),1000);
 	setTimeout(moveTo(280,2,littles.littles11),1001);
 	
-	setTimeout(littles.littles12.setPosition(2,198),2000);
+	setTimeout(littles.littles12.setPosition(70,280),2000);
 	setTimeout(moveTo(285,5,littles.littles12),2001);
 	
-	setTimeout(littles.littles13.setPosition(2,198),3000);
+	setTimeout(littles.littles13.setPosition(70,280),3000);
 	setTimeout(moveTo(290,8,littles.littles13),3001);
 	
-	setTimeout(littles.littles14.setPosition(2,198),4000);
+	setTimeout(littles.littles14.setPosition(70,280),4000);
 	setTimeout(moveTo(295,10,littles.littles14),4001);
 	
-	setTimeout(littles.littles15.setPosition(2,198),5000);
-	setTimeout(moveTo(298,12,littles.littles15),5001);
+	setTimeout(littles.littles15.setPosition(70,298),5000);
+	setTimeout(moveTo(298,12,littles.littles15),280);
 }
-
-document.onReady=init();

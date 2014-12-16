@@ -1,10 +1,19 @@
-//创建控制区
-function showSkillArea(){
-	var map=document.getElementById('playground');
-	var table=document.getElementById('playArea');
-	if (!table) return;		//技能区必须在playArea之后加载
-	var skill=document.createElement('div');
-	skill.id='skillArea';
-	skill.innerHTML='123123123';
-	map.insertBefore(skill,table);
+//有关页面事件的处理函数
+
+function start_onclick(){
+	document.getElementById('start_button').innerHTML='Loading......';
+	ready();	
 }
+function cell_onclick(e)
+{
+	if (window.event) e=window.event
+	var obj=e.srcElement;
+	if (!obj) obj=e.target		//For Firefox
+  moveTo(obj.posX,obj.posY,hero);
+}
+
+
+document.onReady=init();
+document.getElementById('start_button_wrapper').onclick=start_onclick;
+
+document.getElementById('playArea').onclick=cell_onclick;
