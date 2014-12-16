@@ -343,6 +343,8 @@ function set(i, j, ID) {
         for (; j < b; j++)
             g.thing[i][j] = ID;
     }
+    setImage(i,j,ID,1);
+    
 }
 //撤销一个单位
 function del(i, j) {
@@ -353,6 +355,7 @@ function del(i, j) {
         for (; j < b; j++)
             g.thing[i][j] = 0;
     }
+    setImage(i,j,0);
 }
 //物体的基本移动
 function mov_left(i, j) {
@@ -472,6 +475,23 @@ function showMap(){
 		}	
 	}
 }*/
+
+
+function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片放置到(x,y)中
+	var table=document.getElementById('playArea');
+	if (ID==0)
+	{
+		table.childNodes[x].childNodes[y].innerHTML = '';
+	}
+	else
+	{
+		var img=document.createElement('img');
+		img.src = './image' + ID + '-' + state + '.png';
+		img.width='219px';
+		img.height='311px';
+		table.childNodes[x].childNodes[y].appendChild(img);
+	}
+}
 
 //创建控制区
 function showSkillArea(){
@@ -907,6 +927,7 @@ function init()	//初始化
 	setTimeout(littles.littles15.setPosition(2,298),5000);
 	setTimeout(moveTo(12,298,littles.littles15),5001);
 	
+	inited=true;
 }
 
 document.onReady=init();
