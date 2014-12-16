@@ -147,7 +147,7 @@ function createMapArray() {
     
            //新地图
     //上三角
-    for(var j=0;j<50;j++)
+    /*for(var j=0;j<50;j++)
     {
 	    for(var i=150+j;i<250-j;i++)
 	    {
@@ -174,7 +174,7 @@ function createMapArray() {
 	
     //右三角
 	//FIXME:修改参数
-	/*
+	
     for(var i=350;i<400;i++)
 	{
 	    for(var j=500-i;j<=i-200;j++)
@@ -182,7 +182,7 @@ function createMapArray() {
 		    g.ground[i][j]=0;
 	    }	
     }
-    */
+    
     
     //基地左下
     var house_wide=20;
@@ -287,7 +287,7 @@ function createMapArray() {
 	
 	//右草从
 	//FIXME：修改参数
-	/*
+	
     b=88;
 	for(a=400;a>=350;a=a-12)
 	{  
@@ -307,7 +307,7 @@ function createMapArray() {
 	        }	
 	    }
 	}
-	*/
+	
 
 	//我方塔的位置
 	a=100;
@@ -324,7 +324,7 @@ function createMapArray() {
 	}  
 	//敌方塔的位置
 	//FIXME：修改参数
-	/*	
+		
 	a=300;
 	b=100;
 	for(var i=a-20;i<=a+20;i++)
@@ -338,6 +338,200 @@ function createMapArray() {
 	   }	
 	}
 	*/
+	//缩小版新地图
+	           //新地图
+    //上三角
+    	for(var j=0;j<33;j++)
+    	{
+	    for(var i=117+j;i<183-j;i++)
+	    {
+		   g.ground[i][j]=0;
+	    }
+	}
+    //左三角
+	for(var i=0;i<37.5;i++)
+	{
+	    for(var j=62.5+i;j<=137.5-i;j++)
+		{
+		    g.ground[i][j]=0;
+	    }	
+    	}
+
+    //下三角
+	for(var j=167;j<200;j++)
+    	{
+	    for(var i=317-j;i<j-17;i++)
+	    {
+		   g.ground[i][j]=0;
+	    }
+	}
+	
+    //右三角
+
+
+    	for(var i=267;i<300;i++)
+	{
+	    for(var j=367-i;j<=i-167;j++)
+		{
+		    g.ground[i][j]=0;
+	    }	
+    	}
+
+    
+    //基地左下
+    	var house_wide=10;
+    	for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
+    	{
+	   for (var j = 0; j <= house_wide - 1; j++)
+	        g.ground[j][i] = 3;
+    	}
+    //基地右上
+    	for (var j = ScreenWidth - 1; j >= ScreenWidth - house_wide; j--) {
+	   for (var i = 0; i <= house_wide - 1; i++)
+	       g.ground[j][i] = 3;
+    	}
+    
+    //草丛
+    	
+    //上草丛（方）
+    	for(var i=100,j=50;i>=60,j<=85;i=i-8,j=j+6)
+    	{
+		   for(var a=i;a<=i+10;a++)
+		   {
+			  for(var b=j;b<=j+8;b++)
+			  {
+				  g.ground[a][b]=4;
+		      }   
+		   }	
+    	}
+	
+	//下草从（方）
+	
+    for(var i=200,j=150;i<=240,j>=115;i=i+8,j=j-6)
+    {
+		for(var a=i;a<=i+10;a++)
+		{
+       	   for(var b=j;b<=j+8;b++)
+		   {
+		      g.ground[a][b]=4;
+		   } 
+		}
+    }
+	
+	//下草丛（圆）
+	
+    b=206;
+    for(a=112;a<=150;a=a+9)
+    {   
+    	b=b-9;
+		for(var i=a-8;i<=a+8;i++)
+		{
+	   		for(var j=b-8;j<=b+8;j++)
+	   		{
+ 		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=68)
+		        {		
+			        g.ground[i][j]=4;
+			        g.ground[300-i][j]=4;
+		    	}  
+	        }	
+	    } 
+	}
+	
+  //上草丛(圆)
+	
+	b=-6;
+    for(a=112;a<=150;a=a+9)
+    {   
+    	b=b+9;
+		for(var i=a-8;i<=a+8;i++)
+		{
+	   		for(var j=b-8;j<=b+8;j++)
+	   		{
+		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=68)
+		        {		
+				    g.ground[i][j]=4;
+			        g.ground[300-i][j]=4;
+		    	}   
+	        }	
+	    } 
+	}
+	
+	//左草从
+	
+	b=59;
+	for(a=0;a<=38;a=a+9)
+	{  
+ 		b=b+8;
+		for(var i=a-7;i<=a+7;i++)
+		{
+	   		for(var j=b-7;j<=b+7;j++)
+	   		{
+				if(((i-a)*(i-a)+(j-b)*(j-b))<=53)
+		        {	
+				    if(i>=0)
+					{		
+				    	g.ground[i][j]=4;
+			        	g.ground[i][200-j]=4;
+					}
+				}
+		    	  
+	        }	
+	    }
+	}
+	
+	//右草从
+
+
+    b=59;
+	for(a=300;a>=263;a=a-9)
+	{  
+ 		b=b+8;
+		for(var i=a-7;i<=a+7;i++)
+		{
+	   		for(var j=b-7;j<=b+7;j++)
+	   		{
+				if(((i-a)*(i-a)+(j-b)*(j-b))<=53)
+		        {	if(i<=300)	
+					{
+				    	g.ground[i][j]=4;
+			        	g.ground[i][200-j]=4;
+					}
+				}
+		    	  
+	        }	
+	    }
+	}
+	
+
+	//我方塔的位置
+	a=100;
+	b=134;
+	for(var i=a-12;i<=a+12;i++)
+	{
+	   for(var j=b-12;j<=b+12;j++)
+	   {
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=149)
+		   {
+			  g.ground[i][j]=5;
+		   }   
+	   }	
+	}  
+	//敌方塔的位置
+
+		
+	a=200;
+	b=66;
+	for(var i=a-12;i<=a+12;i++)
+	{
+	   for(var j=b-12;j<=b+12;j++)
+	   {
+		   if(((i-a)*(i-a)+(j-b)*(j-b))<=149)
+		   {
+			  g.ground[i][j]=5;
+		   }   
+	   }	
+	}
+	
 }
 
 //一下为所有物体通用的移动函数
