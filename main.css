@@ -12,7 +12,7 @@ ul,li{
 #playground{
 	margin:0px auto;
 	padding:10px 0px;
-	width:800px;
+	width:600px;
 	background:#F8F8F8;
 }
 #footer{
@@ -21,7 +21,7 @@ ul,li{
 	clear:both;
 }
 #skillArea{
-	height:600px;
+	height:200px;
 	width:80px;
 	z-index:10;
 	position:absolute;
@@ -31,7 +31,7 @@ ul,li{
 	background-color:#e9b96e;
 }
 #skillArea .skillButton{
-	height:150px;
+	height:100px;
 	width:80px;
 	display:block;
 	border:1px solid;
@@ -39,8 +39,8 @@ ul,li{
 #playArea{
 	margin:0px auto;
 	padding:0px;
-	height:600px;
-	width:800px;
+	height:400px;
+	width:600px;
 	border-collapse:collapse;
 	border-spacing:0px;
 	border:1px solid;

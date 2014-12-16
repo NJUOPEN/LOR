@@ -1,4 +1,4 @@
-var ScreenWidth=400, ScreenHeight=300;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为800×600
+var ScreenWidth=300, ScreenHeight=200;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为600×400
 var g={ground:0,thing:0};
 var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
@@ -172,7 +172,8 @@ function createMapArray() {
 	}
 	
     //右三角
-	
+	//FIXME:修改参数
+	/*
     for(var i=350;i<400;i++)
 	{
 	    for(var j=500-i;j<=i-200;j++)
@@ -180,6 +181,7 @@ function createMapArray() {
 		    g.ground[i][j]=0;
 	    }	
     }
+    */
     
     //基地左下
     var house_wide=20;
@@ -283,7 +285,8 @@ function createMapArray() {
 	}
 	
 	//右草从
-	
+	//FIXME：修改参数
+	/*
     b=88;
 	for(a=400;a>=350;a=a-12)
 	{  
@@ -303,6 +306,7 @@ function createMapArray() {
 	        }	
 	    }
 	}
+	*/
 
 	//我方塔的位置
 	a=100;
@@ -317,7 +321,9 @@ function createMapArray() {
 		   }   
 	   }	
 	}  
-	//敌方塔的位置	
+	//敌方塔的位置
+	//FIXME：修改参数
+	/*	
 	a=300;
 	b=100;
 	for(var i=a-20;i<=a+20;i++)
@@ -330,6 +336,7 @@ function createMapArray() {
 		   }   
 	   }	
 	}
+	*/
 }
 
 //一下为所有物体通用的移动函数
@@ -500,7 +507,7 @@ function showSkillArea(){
 	if (!table) return;
 	var skill=document.createElement('div');
 	skill.id='skillArea';
-	skill.innerHTML='技能区';
+	//skill.innerHTML='技能区';
 	for (var i=1;i<=4;i++)
 	{
 		var skillCell=document.createElement('div');
@@ -908,24 +915,24 @@ function init()	//初始化
 {
 	loadMap();
 	showSkillArea();
-	hero.setPosition(2,298);
-	moveTo(20,280,hero);
+	hero.setPosition(2,198);
+	moveTo(20,180,hero);
 	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 	
-	setTimeout(littles.littles11.setPosition(2,298),1000);
-	setTimeout(moveTo(2,280,littles.littles11),1001);
+	setTimeout(littles.littles11.setPosition(2,198),1000);
+	setTimeout(moveTo(2,180,littles.littles11),1001);
 	
-	setTimeout(littles.littles12.setPosition(2,298),2000);
-	setTimeout(moveTo(5,285,littles.littles12),2001);
+	setTimeout(littles.littles12.setPosition(2,198),2000);
+	setTimeout(moveTo(5,185,littles.littles12),2001);
 	
-	setTimeout(littles.littles13.setPosition(2,298),3000);
-	setTimeout(moveTo(8,290,littles.littles13),3001);
+	setTimeout(littles.littles13.setPosition(2,198),3000);
+	setTimeout(moveTo(8,190,littles.littles13),3001);
 	
-	setTimeout(littles.littles14.setPosition(2,298),4000);
-	setTimeout(moveTo(10,295,littles.littles14),4001);
+	setTimeout(littles.littles14.setPosition(2,198),4000);
+	setTimeout(moveTo(10,195,littles.littles14),4001);
 	
-	setTimeout(littles.littles15.setPosition(2,298),5000);
-	setTimeout(moveTo(12,298,littles.littles15),5001);
+	setTimeout(littles.littles15.setPosition(2,198),5000);
+	setTimeout(moveTo(12,198,littles.littles15),5001);
 	
 	inited=true;
 }
