@@ -1,5 +1,6 @@
 var ScreenWidth=300, ScreenHeight=200;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为600×400
 var g={ground:0,thing:0};
+var groundX,groundY;//绘图区在整个页面的绝对坐标
 var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
 //其中ground代表地面；thing代表站在该处的物体 1为有物体
@@ -350,7 +351,7 @@ function set(i, j, ID) {
         for (; j < b; j++)
             g.thing[i][j] = ID;
     }
-    setImage(i,j,ID,1);
+    //setImage(i,j,ID,1);
     
 }
 //撤销一个单位
@@ -362,7 +363,7 @@ function del(i, j) {
         for (; j < b; j++)
             g.thing[i][j] = 0;
     }
-    setImage(i,j,0);
+    //setImage(i,j,0);
 }
 //物体的基本移动
 function mov_left(i, j) {
@@ -457,6 +458,8 @@ function showMap(){
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
     }
     map.appendChild(table);	//将完整的表格追加到视图区
+    groundX=table.offsetLeft;
+    groundY=table.offsetTop;
 }
 
 /*function updateMap(){
@@ -483,7 +486,7 @@ function showMap(){
 	}
 }*/
 
-
+/*
 function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片放置到(x,y)中
 	var table=document.getElementById('playArea');
 	if (ID==0)
@@ -493,12 +496,12 @@ function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片�
 	else
 	{
 		var img=document.createElement('img');
-		img.src = './image' + ID + '-' + state + '.png';
-		img.width='219px';
-		img.height='311px';
+		img.className='image_general';
+		img.src = './image/' + ID + '-' + state + '.png';
 		table.childNodes[x].childNodes[y].appendChild(img);
 	}
 }
+*/
 
 //创建控制区
 function showSkillArea(){
@@ -537,6 +540,7 @@ var hero={              //1至9为英雄（可能）
 	def:0,//防御力
     harm_in:0,//收到的伤害数值
     skill: new Array(),//技能数组,具体参考技能设定.txt
+    image:null,
     //自动回血的函数
     basehp_re: function () {
         this.hp += this.hp_re;
@@ -590,7 +594,7 @@ var hero={              //1至9为英雄（可能）
 	{
 		this.pos_x=x;
 		this.pos_y=y;
-		set(this.pos_x,this.pos_y,this.ID)
+		set(this.pos_x,this.pos_y,this.ID);
 	},
 	/*tryNextStep:function(){
 		if (!this.move_path || this.move_path.length<1)	//移动完成
@@ -731,6 +735,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 
 		
 		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
+		var state_changed=false;
 		
 		if ((pos_x != x) ||(pos_y != y)) {
 				if(ti==0){
@@ -863,12 +868,35 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 					}
 			}
+			if (obj.state!=1) state_changed=true;
 			obj.state=1;
 		}
-		else obj.state=0;
+		else
+		{
+			if (obj.state!=0) state_changed=true;
+			obj.state=0;
+		}
 		obj.pos_x=pos_x;
 		obj.pos_y=pos_y;
 		obj.ti=ti;
+		if(!obj.image)
+		{
+			obj.image=document.createElement('img');
+			obj.image.className='image_general';
+			obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
+			obj.image.style.left=groundX + obj.pos_x + 'px';
+			obj.image.style.top=groundY + obj.pos_y + 'px';
+			document.getElementById('playArea').appendChild(obj.image);
+		}
+		else
+		{
+			obj.image.style.left=groundX + obj.pos_x + 'px';
+			obj.image.style.top=groundY + obj.pos_y + 'px';
+			if (state_changed)
+			{
+				obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
+			}
+		}
 }
 
 function moveTo(x,y,obj)
@@ -915,26 +943,29 @@ function init()	//初始化
 {
 	loadMap();
 	showSkillArea();
-	hero.setPosition(2,198);
-	moveTo(20,180,hero);
-	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
-	
-	setTimeout(littles.littles11.setPosition(2,198),1000);
-	setTimeout(moveTo(2,180,littles.littles11),1001);
-	
-	setTimeout(littles.littles12.setPosition(2,198),2000);
-	setTimeout(moveTo(5,185,littles.littles12),2001);
-	
-	setTimeout(littles.littles13.setPosition(2,198),3000);
-	setTimeout(moveTo(8,190,littles.littles13),3001);
-	
-	setTimeout(littles.littles14.setPosition(2,198),4000);
-	setTimeout(moveTo(10,195,littles.littles14),4001);
-	
-	setTimeout(littles.littles15.setPosition(2,198),5000);
-	setTimeout(moveTo(12,198,littles.littles15),5001);
 	
 	inited=true;
+}
+function ready()
+{
+	hero.setPosition(2,198);
+	moveTo(20,180,hero);
+	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
+	
+	setTimeout(littles.littles11.setPosition(2,198),1000);
+	setTimeout(moveTo(280,2,littles.littles11),1001);
+	
+	setTimeout(littles.littles12.setPosition(2,198),2000);
+	setTimeout(moveTo(285,5,littles.littles12),2001);
+	
+	setTimeout(littles.littles13.setPosition(2,198),3000);
+	setTimeout(moveTo(290,8,littles.littles13),3001);
+	
+	setTimeout(littles.littles14.setPosition(2,198),4000);
+	setTimeout(moveTo(295,10,littles.littles14),4001);
+	
+	setTimeout(littles.littles15.setPosition(2,198),5000);
+	setTimeout(moveTo(298,12,littles.littles15),5001);
 }
 
 document.onReady=init();

@@ -20,6 +20,12 @@ ul,li{
 	background:#729fcf;
 	clear:both;
 }
+#start_button{
+	height:50px;
+	width:100px;
+	padding:10px 0px;
+	border:2px solid;
+}
 #skillArea{
 	height:200px;
 	width:80px;
@@ -53,6 +59,7 @@ ul,li{
 	border:0px;
 }
 #playArea .cellLine .cell{ //默认的格子样式
+	height:2px;
 	width:2px;
 	overflow:visible;
 }
@@ -85,4 +92,9 @@ ul,li{
 	border:0px;
 	background-color:#3465a4;
 	
+}
+#playArea .image_general{
+	position:absolute;
+	height:80px;
+	width:60px;
 }
