@@ -923,11 +923,11 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 	var obj=findSomethingByID(id);
 	if (!obj) return;
 	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
+			obj.state=0;
 			return false;
 		}
 		//return;
 
-		
 		var pos_x = obj.pos_x, pos_y = obj.pos_y, ti=obj.ti;
 		
 		if ((pos_x != x) ||(pos_y != y)) {
@@ -997,7 +997,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 						
 					}
-					if (x>pos_x){                    
+					else if (x>pos_x){                    
 						if(y<pos_y){
 							mov_right(pos_x++,pos_y);
 							if(g.ground[pos_x][pos_y-1]==0)
@@ -1017,6 +1017,8 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 						
 					}
+					else
+						ti=1;
 					
 				}
 				else if(ti==3){
@@ -1040,7 +1042,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 						
 					}
-					if (y>pos_y){
+					else if (y>pos_y){
 						if(x<pos_x){
 							mov_down(pos_x,pos_y++);
 							if(g.ground[pos_x-1][pos_y]==0)
@@ -1060,6 +1062,8 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 						
 						
 					}
+					else
+						ti=0;
 			}
 			if (obj.state!=1) obj.state_changed=true;
 			obj.state=1;
@@ -1077,14 +1081,14 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 			obj.image=document.createElement('img');
 			obj.image.className='image_general';
 			obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
-			obj.image.style.left=groundX + obj.pos_x + 'px';
-			obj.image.style.top=groundY + obj.pos_y + 'px';
+			obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
+			obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
 			document.getElementById('playArea').appendChild(obj.image);
 		}
 		else
 		{
-			obj.image.style.left=groundX + obj.pos_x + 'px';
-			obj.image.style.top=groundY + obj.pos_y + 'px';
+			obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
+			obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
 			if (obj.state_changed)
 			{
 				obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
@@ -1141,7 +1145,7 @@ function init()	//初始化
 }
 function ready()
 {
-	hero.setPosition(90,198);
+	hero.setPosition(40,198);
 	moveTo(280,20,hero);
 	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
 	
