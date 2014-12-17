@@ -131,3 +131,17 @@ ul,li{
 	border:0px hidden;
 	z-index:1;
 }
+#playArea .image_small{
+	position:absolute;
+	height:60px;
+	width:45px;
+	border:0px hidden;
+	z-index:0;
+}
+#playArea .image_large{
+	position:absolute;
+	height:100px;
+	width:75px;
+	border:0px hidden;
+	z-index:1;
+}

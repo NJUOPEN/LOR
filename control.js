@@ -6,17 +6,17 @@ function start_onclick(){
 }
 function cell_onclick(e)
 {
-	if (window.event) e=window.event
+	if (window.event) e=window.event;
 	var obj=e.srcElement;
-	if (!obj) obj=e.target		//For Firefox
+	if (!obj) obj=e.target;		//For Firefox
 	if (!obj.posX) return;
   moveTo(obj.posX,obj.posY,hero);
 }
 function cell_onmousemove(e)
 {
-	if (window.event) e=window.event
+	if (window.event) e=window.event;
 	var obj=e.srcElement;
-	if (!obj) obj=e.target		//For Firefox
+	if (!obj) obj=e.target;		//For Firefox
 	if (!obj.posX) return;
   	document.getElementById('debug_div').innerHTML=obj.posX + '-' + obj.posY;
 }

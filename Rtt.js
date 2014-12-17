@@ -389,7 +389,8 @@ function showControlLayer(){
 	showSkillArea(area);
 	showStateArea(area);
 	showSwitchButton(area);
-	map.insertBefore(area,document.getElementById('playArea'));	
+	//map.insertBefore(area,document.getElementById('playArea'));	
+	map.appendChild(area);
 }
 
 var time=0;
@@ -403,7 +404,7 @@ var hero={              //1至9为英雄（可能）
 	tag_y:0,  //目的地
 	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
-	obj_state:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
 	hp_re:0,//生命值的回复速度，每50ms的数值
@@ -519,6 +520,9 @@ var littles={              //11至15为小兵
 	  pos_y:0,
 	  tag_x:0,
 	  tag_y: 0,
+	  ti:0,	//上一次尝试的前进方向
+	  state: 0,	//当前状态
+	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -576,6 +580,9 @@ var littles={              //11至15为小兵
 	  pos_y:0,
 	  tag_x:0,
 	  tag_y: 0,
+	  ti:0,	//上一次尝试的前进方向
+	  state: 0,	//当前状态
+	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -632,6 +639,9 @@ var littles={              //11至15为小兵
 	  pos_y:0,
 	  tag_x:0,
 	  tag_y: 0,
+	  ti:0,	//上一次尝试的前进方向
+	  state: 0,	//当前状态
+	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -688,6 +698,9 @@ var littles={              //11至15为小兵
 	  pos_y:0,
 	  tag_x:0,
 	  tag_y: 0,
+	  ti:0,	//上一次尝试的前进方向
+	  state: 0,	//当前状态
+	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -744,6 +757,9 @@ var littles={              //11至15为小兵
 	  pos_y:0,
 	  tag_x:0,
 	  tag_y: 0,
+	  ti:0,	//上一次尝试的前进方向
+	  state: 0,	//当前状态
+	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1079,8 +1095,8 @@ littles20: {
 
 var tower1 = {
     ID: 21,
-    pos_x: 100,
-    pos_y: 134,
+    pos_x: 90,
+    pos_y: 127,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1126,8 +1142,8 @@ var tower1 = {
 
 var tower2 = {
     ID: 22,
-    pos_x: 200,
-    pos_y: 66,
+    pos_x: 190,
+    pos_y: 57,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1171,13 +1187,54 @@ var tower2 = {
     },
 }
 
-
+function showImage(obj)	//显示或更新obj为图片关联的对象
+{
+	var ID=0,state=0;
+	if (obj.ID==1)
+	{
+		ID=1;
+		state=obj.state;
+	}
+	else if (obj.ID>=11 && obj.ID<=20)
+	{
+		ID=2;
+		state=obj.state;
+	}
+	else if (obj.ID==21 || obj.ID==22)
+	{
+		ID=3;
+	}
+	if(!obj.image)
+	{
+		obj.image=document.createElement('img');
+		if (ID==2)
+			obj.image.className='image_small';
+		else if (ID==3)
+			obj.image.className='image_large';
+		else
+			obj.image.className='image_general';
+		obj.image.src = './image/' + ID + '-' + state + '.png';
+		obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
+		obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
+		document.getElementById('playArea').appendChild(obj.image);
+	}
+	else
+	{
+		obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
+		obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
+		if (obj.state_changed)
+		{
+			obj.image.src = './image/' + ID + '-' + state + '.png';
+		}
+	}
+}
 
 function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移动对象ID
 	var obj=findSomethingByID(id);
 	if (!obj) return;
 	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
 			obj.state=0;
+			obj.state_changed=true;
 			return false;
 		}
 		//return;
@@ -1319,35 +1376,18 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 					else
 						ti=0;
 			}
-			if (obj.state!=1) obj.state_changed=true;
+			if (obj.state!=1) obj.state_changed=true; else obj.state_changed=false;
 			obj.state=1;
 		}
 		else
 		{
-			if (obj.state!=0) obj.state_changed=true;
+			if (obj.state!=0) obj.state_changed=true; else obj.state_changed=false;
 			obj.state=0;
 		}
 		obj.pos_x=pos_x;
 		obj.pos_y=pos_y;
 		obj.ti=ti;
-		if(!obj.image)
-		{
-			obj.image=document.createElement('img');
-			obj.image.className='image_general';
-			obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
-			obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
-			obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
-			document.getElementById('playArea').appendChild(obj.image);
-		}
-		else
-		{
-			obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
-			obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
-			if (obj.state_changed)
-			{
-				obj.image.src = './image/' + obj.ID + '-' + obj.state + '.png';
-			}
-		}
+		showImage(obj);
 }
 
 function moveTo(x,y,obj)
@@ -1356,6 +1396,7 @@ function moveTo(x,y,obj)
 		obj.tag_x=x;
 		obj.tag_y=y;
 		obj.state=1;
+		obj.state_changed=true;
 }
 
 function doEvent()	//总的事件处理函数；具体处理过程交给相关对象的doEvent函数
@@ -1375,16 +1416,30 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 	switch (ID){
 		case 1:
 			return hero;
-		case 2:
+		case 11:
 			return littles.littles11;
-	  case 3:
+	  	case 12:
 			return littles.littles12;
-	  case 4:
+	  	case 13:
 			return littles.littles13;
-	  case 5:
+	  	case 14:
 			return littles.littles14;
-	  case 6:
-			return littles.littles15;									
+	  	case 15:
+			return littles.littles15;
+		case 16:
+			return littles.littles16;
+	  	case 17:
+			return littles.littles17;
+	  	case 18:
+			return littles.littles18;
+	  	case 19:
+			return littles.littles19;
+	  	case 20:
+			return littles.littles20;	
+		case 21:
+			return tower1;		
+		case 22:
+			return tower2;						
 		default:
 			return;
 	}
@@ -1392,29 +1447,32 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 
 function init()	//初始化
 {
-	showControlLayer();
+	//showControlLayer();	//不知道为什么鼠标点击功能失效，暂不显示控制栏
 	loadMap();
 	
 	inited=true;
 }
 function ready()
 {
-	hero.setPosition(40,198);
+	hero.setPosition(60,198);
 	moveTo(280,20,hero);
 	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
 	
-	setTimeout(littles.littles11.setPosition(70,280),1000);
+	setTimeout(littles.littles11.setPosition(65,155),1000);
 	setTimeout(moveTo(280,2,littles.littles11),1001);
 	
-	setTimeout(littles.littles12.setPosition(70,280),2000);
-	setTimeout(moveTo(285,5,littles.littles12),2001);
+	setTimeout(littles.littles12.setPosition(50,165),2000);
+	setTimeout(moveTo(285,5,littles.littles12),20001);
+	/*小兵太多，刷新速度很慢T_T
+	setTimeout(littles.littles13.setPosition(35,175),3000);
+	setTimeout(moveTo(290,8,littles.littles13),30001);
 	
-	setTimeout(littles.littles13.setPosition(70,280),3000);
-	setTimeout(moveTo(290,8,littles.littles13),3001);
+	setTimeout(littles.littles14.setPosition(20,185),4000);
+	setTimeout(moveTo(295,10,littles.littles14),40001);
 	
-	setTimeout(littles.littles14.setPosition(70,280),4000);
-	setTimeout(moveTo(295,10,littles.littles14),4001);
-	
-	setTimeout(littles.littles15.setPosition(70,298),5000);
-	setTimeout(moveTo(298,12,littles.littles15),280);
+	setTimeout(littles.littles15.setPosition(5,195),5000);
+	setTimeout(moveTo(298,12,littles.littles15),50001);
+	*/
+	showImage(tower1);
+	showImage(tower2);
 }
