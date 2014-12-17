@@ -3,7 +3,7 @@ var g={ground:0,thing:0};
 var groundX,groundY;//绘图区在整个页面的绝对坐标
 var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
-//其中ground代表地面；thing代表站在该处的物体 1为有物体
+//其中ground代表地面；thing代表站在该处的物体 1—5为己方英雄6—10为对方英雄11—15为小兵21和22是防御塔
 //并且暂时只用一个像素点来表示可移动单位
 
 function createMapArray() {
@@ -26,318 +26,6 @@ function createMapArray() {
     }
 
     //TODO：在新的屏幕尺寸上绘制新的地图
-    /*旧地图   
-   //河道
-       for (var i = 0; i < 100; i++) {
-           for (var j = count; j < count + 7; j++)
-               g.ground[i][j] = 2;
-           count++;
-       }
-       //中路
-       for (var k = 0; k < 4; k++) {
-           var j = 0;
-           for (var i = 99 - k; i >= 0; i--) {
-               g.ground[i][j] = 1;
-               j++;
-           }
-       }
-       for (var k = 0; k < 4; k++) {
-           var i = 99;
-           for (var j = k; j < 100; j++) {
-               g.ground[i][j] = 1;
-               i--;
-           }
-       }
-       //小路i=48--53
-       for (var k = 0; k <= 6; k++) {
-           var j = 0;
-           for (var i = 48 + k; i < 100; i++) {
-               g.ground[i][j] = 1;
-               j++;
-           }
-       }
-       //小路j=48-53
-       for (var k = 0; k <= 6; k++) {
-           var i = 0;
-           for (var j = 48 + k; j < 100; j++) {
-               g.ground[i][j] = 1;
-               i++;
-           }
-       }
-       //边路
-       for (var i = 0; i <= 5; i++) {
-           for (var j = 0; j <= 99; j++) {
-               g.ground[i][j] = 1;
-               g.ground[j][i] = 1;
-           }
-       }
-       for (var i = 99; i >= 94; i--) {
-           for (var j = 0; j <= 99; j++) {
-               g.ground[i][j] = 1;
-               g.ground[j][i] = 1;
-           }
-       }
-       //基地
-       for (var i = 99; i >= 93; i--) {
-           for (var j = 0; j <= 6; j++) {
-               g.ground[i][j] = 3;
-               g.ground[j][i] = 3;
-           }
-       }
-   
-   */
-    //新地图 
- 
-    /*var a = 50, b = 70;
-    
-    for (var i = 0; b >= 0; i++) {
-        for (var j = 200 - b; j <= 150 + b; j++)
-            g.ground[j][i] = 4;
-        b = b - 3;
-    }
-    
-    for (var i = 0; a >= 0; i++) {
-        for (var j = 200 - a; j <= 150 + a; j++)
-            g.ground[j][i] = 0;
-        a=a-3;
-    }
-    //左三角
-    a = 30, b = 45;
-    
-    for (var j = 0; b >= 0; j++) {
-        for (var i = 170 - b; i <= 140 + b; i++)
-            g.ground[j][i] = 4;
-        b -= 1;
-    }
-    
-    for (var j = 0; a >= 0; j++) {
-        for (var i = 170 - a; i <= 140 + a; i++)
-            g.ground[j][i] = 0;
-            a -= 1;
-    }
-    //下三角
-    a = 80, b = 100;
-    
-    for (var i = ScreenHeight - 1; b >= 0; i--) {
-        for (var j = 205 - b; j <= 145 + b; j++)
-            g.ground[j][i] = 4;
-        b -= 3;
-    }
-    
-    for(var i=ScreenHeight-1;a>=0;i--)
-    {
-        for (var j = 205 - a; j <= 145 + a; j++)
-            g.ground[j][i] = 0;
-        a -= 3;
-    }
-    //右三角
-    a = 60, b = 85;
-    
-    for (var j = ScreenWidth - 1; b >= 0; j--) {
-        for (var i = 170 - b; i <= 110 + b; i++)
-            g.ground[j][i] = 4;
-        b -= 1;
-    }
-    
-    for (var j = ScreenWidth - 1; a >= 0; j--) {
-        for (var i = 170 - a; i <= 110 + a; i++)
-            g.ground[j][i] = 0;
-        a -= 1;
-    }*/
-    
-           //新地图
-    //上三角
-    /*for(var j=0;j<50;j++)
-    {
-	    for(var i=150+j;i<250-j;i++)
-	    {
-		   g.ground[i][j]=0;
-	    }
-	}
-    //左三角
-	for(var i=0;i<50;i++)
-	{
-	    for(var j=100+i;j<=200-i;j++)
-		{
-		    g.ground[i][j]=0;
-	    }	
-    }
-
-    //下三角
-	    for(var j=250;j<300;j++)
-    {
-	    for(var i=450-j;i<j-50;i++)
-	    {
-		   g.ground[i][j]=0;
-	    }
-	}
-	
-    //右三角
-	//FIXME:修改参数
-	
-    for(var i=350;i<400;i++)
-	{
-	    for(var j=500-i;j<=i-200;j++)
-		{
-		    g.ground[i][j]=0;
-	    }	
-    }
-    
-    
-    //基地左下
-    var house_wide=20;
-    for(var i=ScreenHeight-1;i>=ScreenHeight-house_wide;i--)
-    {
-        for (var j = 0; j <= house_wide - 1; j++)
-            g.ground[j][i] = 3;
-    }
-    //基地右上
-    for (var j = ScreenWidth - 1; j >= ScreenWidth - house_wide; j--) {
-        for (var i = 0; i <= house_wide - 1; i++)
-            g.ground[j][i] = 3;
-    }
-    
-    //草丛
-    	
-	//上草丛（方）
-    for(var i=150,j=70;i>=90,j<=130;i=i-15,j=j+15)
-    {
-		   for(var a=i;a<=i+20;a++)
-		   {
-			  for(var b=j;b<=j+20;b++)
-			  {
-				  g.ground[a][b]=4;
-		      }   
-		   }	
-    }
-	
-	//下草从（方）
-	
-    for(var i=220,j=220;i<=280,j>=160;i=i+15,j=j-15)
-    {
-		for(var a=i;a<=i+20;a++)
-		{
-       	   for(var b=j;b<=j+20;b++)
-		   {
-		      g.ground[a][b]=4;
-		   } 
-		}
-    }
-	
-	//上草丛（圆）
-	
-    b=312;
-    for(a=150;a<=200;a=a+12)
-    {   
-    	b=b-12;
-		for(var i=a-10;i<=a+10;i++)
-		{
-	   		for(var j=b-10;j<=b+10;j++)
-	   		{
-		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
-		        {		
-			        g.ground[i][j]=4;
-			        g.ground[400-i][j]=4;
-		    	}   
-	        }	
-	    } 
-	}
-	
-	//下草丛(圆)
-	
-	b=-12;
-    for(a=150;a<=200;a=a+12)
-    {   
-    	b=b+12;
-		for(var i=a-10;i<=a+10;i++)
-		{
-	   		for(var j=b-10;j<=b+10;j++)
-	   		{
-		   		if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
-		        {		
-				    g.ground[i][j]=4;
-			        g.ground[400-i][j]=4;
-		    	}   
-	        }	
-	    } 
-	}
-	
-	//左草从
-	
-	b=88;
-	for(a=0;a<=50;a=a+12)
-	{  
- 		b=b+12;
-		for(var i=a-10;i<=a+10;i++)
-		{
-	   		for(var j=b-10;j<=b+10;j++)
-	   		{
-				if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
-		        {	
-				    if(i>=0)
-					{		
-				    	g.ground[i][j]=4;
-			        	g.ground[i][300-j]=4;
-					}
-				}
-		    	  
-	        }	
-	    }
-	}
-	
-	//右草从
-	//FIXME：修改参数
-	
-    b=88;
-	for(a=400;a>=350;a=a-12)
-	{  
- 		b=b+12;
-		for(var i=a-10;i<=a+10;i++)
-		{
-	   		for(var j=b-10;j<=b+10;j++)
-	   		{
-				if(((i-a)*(i-a)+(j-b)*(j-b))<=100)
-		        {	if(i<=400)	
-					{
-				    	g.ground[i][j]=4;
-			        	g.ground[i][300-j]=4;
-					}
-				}
-		    	  
-	        }	
-	    }
-	}
-	
-
-	//我方塔的位置
-	a=100;
-	b=200;
-	for(var i=a-20;i<=a+20;i++)
-	{
-	   for(var j=b-20;j<=b+20;j++)
-	   {
-		   if(((i-a)*(i-a)+(j-b)*(j-b))<=404)
-		   {
-			  g.ground[i][j]=5;
-		   }   
-	   }	
-	}  
-	//敌方塔的位置
-	//FIXME：修改参数
-		
-	a=300;
-	b=100;
-	for(var i=a-20;i<=a+20;i++)
-	{
-	   for(var j=b-20;j<=b+20;j++)
-	   {
-		   if(((i-a)*(i-a)+(j-b)*(j-b))<=404)
-		   {
-			  g.ground[i][j]=5;
-		   }   
-	   }	
-	}
-	*/
 	//缩小版新地图
 	           //新地图
     //上三角
@@ -735,19 +423,26 @@ var hero={              //1至9为英雄（可能）
 	def:0,//防御力
     harm_in:0,//收到的伤害数值
     skill: new Array(),//技能数组,具体参考技能设定.txt
-    image:null,
+    image: null,
+    attack_range:4,
+    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+    attack_range:function(){
+        for(var i=this.pos_x-this.attack_range;i<=this.pos_x+this.attack_range;i++)
+            for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+                if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+                    if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10||g.thing[i][j]>=16) this.attack(g.thing[i][j]);
+                }
+            }
+    },
     //自动回血的函数
     basehp_re: function () {
         this.hp += this.hp_re;
     },
 
-    //攻击间隔
+    //攻击
     attack:function(ID){
-        //var time=1;
-        //if(time%5==1)
         if(ID!=0)
             findSomethingByID(ID).harm_in=this.att-findSomethingByID(ID).def;
-        //time++;
     },
     //被动基本技能
     baseskill:function(){
@@ -823,6 +518,9 @@ var hero={              //1至9为英雄（可能）
 				move(x, y, this.ID);
 				return;
 		}
+		this.deal_harm();
+		this.def_hp();
+		this.attack_range();
 	},
 }
 
@@ -832,7 +530,43 @@ var littles={              //11至15为小兵
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
-	  tag_y:0,
+	  tag_y: 0,
+	  hp: 0,//生命值
+	  hp_max: 0,//生命值的最大值
+	  hp_re: 0,//生命值的回复速度，每50ms的数值
+	  att: 0,//攻击力
+	  def: 0,//防御力
+	  harm_in: 0,//收到的伤害数值
+	  attack_range: 4,
+	    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+	  attack_range: function () {
+	      for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+	          for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+	              if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+	                  if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+	              }
+	          }
+	  },
+	    //处理输入的伤害值
+	  deal_harm: function () {
+	      if (this.harm_in >= this.hp) this.hp = 0;
+	      else this.hp -= this.harm_in;
+	  },
+
+	    //血量观察函数
+	  def_hp: function () {
+	      if (this.hp == 0) del(this.pos_x, this.pos_y);
+	  },
+	    //自动回血的函数
+	  basehp_re: function () {
+	      this.hp += this.hp_re;
+	  },
+
+	    //攻击
+	  attack: function (ID) {
+	      if (ID != 0)
+	          findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+	  },
 	  
 	  setPosition:function(x,y){
 		  this.pos_x=x;
@@ -841,7 +575,11 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-	    move(x,y,this.ID);
+		  move(x, y, this.ID);
+		  this.basehp_re();
+		  this.deal_harm();
+		  this.def_hp();
+		  this.attack_range();
 	  }
   },
 	littles12:{
@@ -849,7 +587,42 @@ var littles={              //11至15为小兵
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
-	  tag_y:0,
+	  tag_y: 0,
+	  hp: 0,//生命值
+	  hp_max: 0,//生命值的最大值
+	  hp_re: 0,//生命值的回复速度，每50ms的数值
+	  att: 0,//攻击力
+	  def: 0,//防御力
+	  harm_in: 0,//收到的伤害数值
+	  attack_range: 4,
+	    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+	  attack_range: function () {
+	      for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+	          for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+	              if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+	                  if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+	              }
+	          }
+	  },
+	    //处理输入的伤害值
+	  deal_harm: function () {
+	      if (this.harm_in >= this.hp) this.hp = 0;
+	      else this.hp -= this.harm_in;
+	  },
+
+	    //血量观察函数
+	  def_hp: function () {
+	      if (this.hp == 0) del(this.pos_x, this.pos_y);
+	  },
+	    //自动回血的函数
+	  basehp_re: function () {
+	      this.hp += this.hp_re;
+	  },
+	    //攻击
+	  attack: function (ID) {
+	      if (ID != 0)
+	          findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+	  },
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
@@ -858,7 +631,11 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-	    move(x,y,this.ID);
+		  move(x, y, this.ID);
+		  this.basehp_re();
+		  this.deal_harm();
+		  this.def_hp();
+		  this.attack_range();
 	  }
   },
 	littles13:{
@@ -866,7 +643,42 @@ var littles={              //11至15为小兵
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
-	  tag_y:0,
+	  tag_y: 0,
+	  hp: 0,//生命值
+	  hp_max: 0,//生命值的最大值
+	  hp_re: 0,//生命值的回复速度，每50ms的数值
+	  att: 0,//攻击力
+	  def: 0,//防御力
+	  harm_in: 0,//收到的伤害数值
+	  attack_range: 4,
+	    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+	  attack_range: function () {
+	      for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+	          for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+	              if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+	                  if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+	              }
+	          }
+	  },
+	    //处理输入的伤害值
+	  deal_harm: function () {
+	      if (this.harm_in >= this.hp) this.hp = 0;
+	      else this.hp -= this.harm_in;
+	  },
+
+	    //血量观察函数
+	  def_hp: function () {
+	      if (this.hp == 0) del(this.pos_x, this.pos_y);
+	  },
+	    //自动回血的函数
+	  basehp_re: function () {
+	      this.hp += this.hp_re;
+	  },
+	    //攻击
+	  attack: function (ID) {
+	      if (ID != 0)
+	          findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+	  },
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
@@ -875,7 +687,11 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-	    move(x,y,this.ID);
+		  move(x, y, this.ID);
+		  this.basehp_re();
+		  this.deal_harm();
+		  this.def_hp();
+		  this.attack_range();
 	  }
 	},
 	littles14:{
@@ -883,7 +699,42 @@ var littles={              //11至15为小兵
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
-	  tag_y:0,
+	  tag_y: 0,
+	  hp: 0,//生命值
+	  hp_max: 0,//生命值的最大值
+	  hp_re: 0,//生命值的回复速度，每50ms的数值
+	  att: 0,//攻击力
+	  def: 0,//防御力
+	  harm_in: 0,//收到的伤害数值
+	  attack_range: 4,
+	    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+	  attack_range: function () {
+	      for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+	          for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+	              if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+	                  if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+	              }
+	          }
+	  },
+	    //处理输入的伤害值
+	  deal_harm: function () {
+	      if (this.harm_in >= this.hp) this.hp = 0;
+	      else this.hp -= this.harm_in;
+	  },
+
+	    //血量观察函数
+	  def_hp: function () {
+	      if (this.hp == 0) del(this.pos_x, this.pos_y);
+	  },
+	    //自动回血的函数
+	  basehp_re: function () {
+	      this.hp += this.hp_re;
+	  },
+	    //攻击
+	  attack: function (ID) {
+	      if (ID != 0)
+	          findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+	  },
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
@@ -892,7 +743,11 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-	    move(x,y,this.ID);
+		  move(x, y, this.ID);
+		  this.basehp_re();
+		  this.deal_harm();
+		  this.def_hp();
+		  this.attack_range();
 	  }
 	},
 	littles15:{
@@ -900,7 +755,42 @@ var littles={              //11至15为小兵
 		pos_x:0,
 	  pos_y:0,
 	  tag_x:0,
-	  tag_y:0,
+	  tag_y: 0,
+	  hp: 0,//生命值
+	  hp_max: 0,//生命值的最大值
+	  hp_re: 0,//生命值的回复速度，每50ms的数值
+	  att: 0,//攻击力
+	  def: 0,//防御力
+	  harm_in: 0,//收到的伤害数值
+	  attack_range: 4,
+	    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+	  attack_range: function () {
+	      for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+	          for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+	              if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+	                  if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+	              }
+	          }
+	  },
+	    //处理输入的伤害值
+	  deal_harm: function () {
+	      if (this.harm_in >= this.hp) this.hp = 0;
+	      else this.hp -= this.harm_in;
+	  },
+
+	    //血量观察函数
+	  def_hp: function () {
+	      if (this.hp == 0) del(this.pos_x, this.pos_y);
+	  },
+	    //自动回血的函数
+	  basehp_re: function () {
+	      this.hp += this.hp_re;
+	  },
+	    //攻击
+	  attack: function (ID) {
+	      if (ID != 0)
+	          findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+	  },
 	  
 		setPosition:function(x,y){
 		  this.pos_x=x;
@@ -909,12 +799,103 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-	    move(x,y,this.ID);
+		  move(x, y, this.ID);
+		  this.basehp_re();
+		  this.deal_harm();
+		  this.def_hp();
+		  this.attack_range();
 	  }
 	},
-	
+}
 
+var tower1 = {
+    ID:21,
+    hp: 0,//生命值
+    hp_max: 0,//生命值的最大值
+    hp_re: 0,//生命值的回复速度，每50ms的数值
+    att: 0,//攻击力
+    def: 0,//防御力
+    harm_in: 0,//收到的伤害数值
+    attack_range: 4,
+    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+    attack_range: function () {
+        for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+            for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+                if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+                    if (g.thing[i][j] >= 6 && g.thing[i][j] <= 10 || g.thing[i][j] >= 16) this.attack(g.thing[i][j]);
+                }
+            }
+    },
+    //处理输入的伤害值
+    deal_harm: function () {
+        if (this.harm_in >= this.hp) this.hp = 0;
+        else this.hp -= this.harm_in;
+    },
 
+    //血量观察函数
+    def_hp: function () {
+        if (this.hp == 0) del(this.pos_x, this.pos_y);
+    },
+    //自动回血的函数
+    basehp_re: function () {
+        this.hp += this.hp_re;
+    },
+    //攻击
+    attack: function (ID) {
+        if (ID != 0)
+            findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+    },
+    doEvent: function () {
+        this.basehp_re();
+        this.deal_harm();
+        this.def_hp();
+        this.attack_range();
+    },
+}
+
+var tower2 = {
+    ID: 22,
+    hp: 0,//生命值
+    hp_max: 0,//生命值的最大值
+    hp_re: 0,//生命值的回复速度，每50ms的数值
+    att: 0,//攻击力
+    def: 0,//防御力
+    harm_in: 0,//收到的伤害数值
+    attack_range: 4,
+    //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
+    attack_range: function () {
+        for (var i = this.pos_x - this.attack_range; i <= this.pos_x + this.attack_range; i++)
+            for (var j = this.pos_y - this.attack_range; j <= this.pos_y + this.attack_range; j++) {
+                if ((i - this.pos_x) * (i - this.pos_x) + (j - this.pos_y) * (j - this.pos_y) <= this.attack_range) {
+                    if (g.thing[i][j] <=5 && g.thing[i][j] > 0 || g.thing[i][j] >= 11&&g.thing[i][j] <=15) this.attack(g.thing[i][j]);
+                }
+            }
+    },
+    //处理输入的伤害值
+    deal_harm: function () {
+        if (this.harm_in >= this.hp) this.hp = 0;
+        else this.hp -= this.harm_in;
+    },
+
+    //血量观察函数
+    def_hp: function () {
+        if (this.hp == 0) del(this.pos_x, this.pos_y);
+    },
+    //自动回血的函数
+    basehp_re: function () {
+        this.hp += this.hp_re;
+    },
+    //攻击
+    attack: function (ID) {
+        if (ID != 0)
+            findSomethingByID(ID).harm_in = this.att - findSomethingByID(ID).def;
+    },
+    doEvent: function () {
+        this.basehp_re();
+        this.deal_harm();
+        this.def_hp();
+        this.attack_range();
+    },
 }
 
 
