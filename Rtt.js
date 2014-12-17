@@ -346,46 +346,6 @@ function showMap(){
     groundY=table.offsetTop;
 }
 
-/*function updateMap(){
-	var table=document.getElementById('playArea');
-	if (!table) return false;
-	for (i = 0; i < 100; i++) {
-		for (j = 0; j < 100; j++) {
-			table.childNodes[i].childNodes[j].className='cell';
-			switch (g.ground[i][j]) {
-                case 0:
-                    table.childNodes[i].childNodes[j].className += ' cell_Blank';
-                    break;
-                case 1:
-                    table.childNodes[i].childNodes[j].className += ' cell_Road';
-                    break;
-                case 2:
-                    table.childNodes[i].childNodes[j].className += ' cell_River';
-                    break;
-                case 3:
-                    table.childNodes[i].childNodes[j].className += ' cell_Removable';
-                    break;
-			}
-		}	
-	}
-}*/
-
-/*
-function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片放置到(x,y)中
-	var table=document.getElementById('playArea');
-	if (ID==0)
-	{
-		table.childNodes[x].childNodes[y].innerHTML = '';
-	}
-	else
-	{
-		var img=document.createElement('img');
-		img.className='image_general';
-		img.src = './image/' + ID + '-' + state + '.png';
-		table.childNodes[x].childNodes[y].appendChild(img);
-	}
-}
-*/
 
 //创建技能区
 function showSkillArea(obj){
