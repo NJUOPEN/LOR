@@ -385,11 +385,8 @@ function setImage(x,y,ID,state){	//将给定ID所对应的人物的素材图片�
 }
 */
 
-//创建控制区
-function showSkillArea(){
-	var map=document.getElementById('playground');
-	var table=document.getElementById('playArea');
-	if (!table) return;
+//创建技能区
+function showSkillArea(obj){
 	var skill=document.createElement('div');
 	skill.id='skillArea';
 	//skill.innerHTML='技能区';
@@ -401,7 +398,36 @@ function showSkillArea(){
 		skillCell.innerHTML='技能'+i;
 		skill.appendChild(skillCell);
 	}
-	map.insertBefore(skill,table);
+	obj.appendChild(skill);
+}
+
+// 创建状态栏
+function showStateArea(obj){
+	var state=document.createElement('div');
+	state.id='stateArea';
+	state.innerHTML='HP:0';
+	obj.appendChild(state);
+}
+
+// 创建切换按钮
+function showSwitchButton(obj){
+	var button1=document.createElement('div');
+	button1.id='switchButton1';
+	var img=document.createElement('img');
+	img.src='./image/control1.png';
+	button1.appendChild(img);
+	obj.appendChild(button1);
+}
+
+//创建控制区
+function showControlLayer(){
+	var map=document.getElementById('playground');
+	area=document.createElement('div');
+	area.id='controlArea';
+	showSkillArea(area);
+	showStateArea(area);
+	showSwitchButton(area);
+	map.insertBefore(area,document.getElementById('playArea'));	
 }
 
 var time=0;
@@ -1119,8 +1145,8 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 
 function init()	//初始化
 {
+	showControlLayer();
 	loadMap();
-	showSkillArea();
 	
 	inited=true;
 }
