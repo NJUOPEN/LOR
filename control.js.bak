@@ -25,5 +25,5 @@ function cell_onmousemove(e)
 document.onReady=init();
 document.getElementById('start_button_wrapper').onclick=start_onclick;
 
-document.getElementById('playArea').onclick=cell_onclick();
+document.getElementById('playArea').onclick=cell_onclick;
 //document.getElementById('playArea').onmousemove=cell_onmousemove;

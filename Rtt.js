@@ -357,6 +357,7 @@ function showSkillArea(obj){
 		var skillCell=document.createElement('div');
 		skillCell.className='skillButton';
 		skillCell.skillNum=i;
+		skillCell.id="skillCell_"+i;
 		skillCell.innerHTML='技能'+i;
 		skill.appendChild(skillCell);
 	}

@@ -20,10 +20,13 @@ function cell_onmousemove(e)
 	if (!obj.posX) return;
   	document.getElementById('debug_div').innerHTML=obj.posX + '-' + obj.posY;
 }
-
+var obj=findSomethingByID(1);
 
 document.onReady=init();
 document.getElementById('start_button_wrapper').onclick=start_onclick;
-
+document.getElementById('skillCell_1').onclick=obj.baseskill_1;
+document.getElementById('skillCell_2').onclick=obj.baseskill_2;
+document.getElementById('skillCell_3').onclick=obj.baseskill_3;
+document.getElementById('skillCell_4').onclick=obj.baseskill_4;
 document.getElementById('playArea').onclick=cell_onclick;
 //document.getElementById('playArea').onmousemove=cell_onmousemove;
