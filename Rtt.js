@@ -1416,5 +1416,5 @@ function ready()
 	setTimeout(moveTo(295,10,littles.littles14),4001);
 	
 	setTimeout(littles.littles15.setPosition(70,298),5000);
-	setTimeout(moveTo(298,12,littles.littles15),280);
+	setTimeout(moveTo(298,12,littles.littles15),5001);
 }
