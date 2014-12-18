@@ -314,6 +314,7 @@ function showMap(){
 	bgImage.style.left=map.offsetLeft;
 	table.appendChild(bgImage);
 	
+	/*目前暂时用图片代替网格
 	//载入网格
     var cell, cellLine, cellClass;
     var i, j;
@@ -351,9 +352,10 @@ function showMap(){
         }
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
     }
+    */
     map.appendChild(table);	//将完整的表格追加到视图区
     //groundX=table.offsetLeft;
-    //groundY=table.offsetTop;
+    //groundY=table.offsetTop;    
 }
 
 
@@ -1496,7 +1498,7 @@ function ready()
 {
 	hero.setPosition(60,198);
 	moveTo(280,20,hero);
-	setInterval(doEvent,1);	//每隔0.05秒调用1次，相当于定时器	
+	setInterval(doEvent,50);	//每隔0.05秒调用1次，相当于定时器	
 	
 	setTimeout(littles.littles11.setPosition(65,155),1000);
 	setTimeout(moveTo(280,2,littles.littles11),1001);
