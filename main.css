@@ -49,6 +49,12 @@ ul,li{
 	width:80px;
 	display:block;
 	border:1px solid;
+	cursor:pointer;
+}
+#skillArea .skillButton .skillButtonImage{
+	height:90px;
+	width:70px;
+	padding:5px 5px;
 }
 #stateArea{
 	position:relative;

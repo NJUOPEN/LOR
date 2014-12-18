@@ -370,9 +370,8 @@ function showSkillArea(obj){
 		skillCell.id="skillCell_"+i;
 		//skillCell.innerHTML='技能'+i;
 		var image=document.createElement('img');
+		image.className='skillButtonImage';
 		image.src='./image/skill1-'+i+'.png';
-		image.style.height='98px';
-		image.style.width='80px';
 		skillCell.appendChild(image);
 		skill.appendChild(skillCell);
 	}
@@ -412,7 +411,7 @@ function showControlLayer(){
 var time=0;
 
 var hero={              //1至9为英雄（可能）
-
+	inited:false,		//对象是否已经初始化
 	ID:1,
 	pos_x:0,
 	pos_y:0,
@@ -421,6 +420,7 @@ var hero={              //1至9为英雄（可能）
 	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
 	image_state:0,	//显示状态，与image的编号对应
+	image: null,
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
 	hp_re:0,//生命值的回复速度，每50ms的数值
@@ -428,7 +428,8 @@ var hero={              //1至9为英雄（可能）
 	def:0,//防御力
     harm_in:0,//收到的伤害数值
     skill: new Array(),//技能数组,具体参考技能设定.txt
-    image: null,
+    skill_current:0,//当前释放的技能ID
+    skill_lasting_time:0,//该技能已经维持的时间；
     attack_range:4,
     //自动攻击距离为attack_range以内的对方英雄或小兵或防御塔
     attack_range:function(){
@@ -459,6 +460,8 @@ var hero={              //1至9为英雄（可能）
     },
 
     baseskill_1: function () {
+    	this.skill_current=1;
+    	this.image_state=2;
         var old_hp = this.hp;
         //var time = 1;
         //if (time % 140 == 1) this.hp_re = this.hp_re + this.hp_max * 0.01*0.05;//此处包含秒和基准刷新速度50ms的换算
@@ -468,11 +471,11 @@ var hero={              //1至9为英雄（可能）
     //4对移速的效果（有正负，百分数,改变而不是改变到） 
     //5对攻击力的效果（百分数） 6对攻击力的效果（数值） 7受到伤害（变到（百分比））  
     //8,造成伤害（数值） 
-	creatskill:function(){
-	    this.skill[1] = new array(5, 10, 0, 0.3, 0, 0, 0);
-	    this.skill[2] = new array(7, 12, 0, 0, 0, 0, 0.7, 0);
-	    this.skill[3] = new array(5, 15, 5, 0, 0, 0, 0, this.att * 1.15);
-	    this.skill[4] = new array(0,30,5,0,0,0,0,500);
+	createskill:function(){
+	    this.skill[1] = new Array(5, 10, 0, 0.3, 0, 0, 0);
+	    this.skill[2] = new Array(7, 12, 0, 0, 0, 0, 0.7, 0);
+	    this.skill[3] = new Array(5, 15, 5, 0, 0, 0, 0, this.att * 1.15);
+	    this.skill[4] = new Array(0,30,5,0,0,0,0,500);
 	},
     //处理输入的伤害值
 	deal_harm:function(){
@@ -487,6 +490,7 @@ var hero={              //1至9为英雄（可能）
 
 	setPosition:function(x,y)
 	{
+		if (!this.inited) this.init();
 		this.pos_x=x;
 		this.pos_y=y;
 		set(this.pos_x,this.pos_y,this.ID);
@@ -514,7 +518,7 @@ var hero={              //1至9为英雄（可能）
 		var x=this.tag_x,y=this.tag_y;
 		document.getElementById('header').innerHTML='英雄当前位置：('+this.pos_x+','+this.pos_y+')；状态：='+this.state;		
 		this.basehp_re();
-		this.baseskill();
+		//this.baseskill();
 		switch (this.state)
 		{
 			case 0:		//无动作
@@ -522,10 +526,24 @@ var hero={              //1至9为英雄（可能）
 			case 1:		//移动状态
 				move(x, y, this.ID);
 		}
+		if (this.skill_current>0)
+		{
+			this.skill_lasting_time++;
+			if (this.skill_lasting_time > this.skill[this.skill_current][0])
+			{
+				this.skill_current=0;
+				this.skill_lasting_time=0;
+				this.image_state=0;				
+			}
+		}
 		this.deal_harm();
 		this.def_hp();
 		this.attack_range();
 	},
+	init:function(){	//初始化工作
+		this.createskill();
+		this.inited=true;
+	}
 }
 
 var littles={              //11至15为小兵
@@ -1251,6 +1269,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
 			obj.state=0;
 			obj.image_state=0;
+			showImage(obj);
 			//obj.state_changed=true;
 			return false;
 		}
@@ -1406,7 +1425,7 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 		obj.ti=ti;
 		if (obj.image_state==1)
 			obj.image_state=0;
-		else
+		else if (obj.image_state==0)
 			obj.image_state=1;
 		showImage(obj);
 }
