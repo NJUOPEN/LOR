@@ -305,6 +305,16 @@ function showMap(){
 	var map = document.getElementById('playground'); 	//获取视图区
     var table = document.createElement('table');	//新建一个表格，元素类型为table
     table.id = 'playArea';
+    
+    //载入背景图片
+	var bgImage=document.createElement('img');
+    bgImage.id='bgImage';
+    bgImage.src='./image/background.gif';
+    bgImage.style.top=map.offsetTop;
+	bgImage.style.left=map.offsetLeft;
+	table.appendChild(bgImage);
+	
+	//载入网格
     var cell, cellLine, cellClass;
     var i, j;
     for (j = 0; j < ScreenHeight; j++) {
@@ -336,7 +346,7 @@ function showMap(){
                 default:
                 	cellClass = '';
             }
-            cell.className = 'cell' + cellClass ;	//格子的样式为基础样式（cell）+扩展样式（cell_XXX）
+            //cell.className = 'cell' + cellClass ;	//格子的样式为基础样式（cell）+扩展样式（cell_XXX）
             cellLine.appendChild(cell);	//将新的一格追加到该行中
         }
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
@@ -358,7 +368,12 @@ function showSkillArea(obj){
 		skillCell.className='skillButton';
 		skillCell.skillNum=i;
 		skillCell.id="skillCell_"+i;
-		skillCell.innerHTML='技能'+i;
+		//skillCell.innerHTML='技能'+i;
+		var image=document.createElement('img');
+		image.src='./image/skill1-'+i+'.png';
+		image.style.height='98px';
+		image.style.width='80px';
+		skillCell.appendChild(image);
 		skill.appendChild(skillCell);
 	}
 	obj.appendChild(skill);
