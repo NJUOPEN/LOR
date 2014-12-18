@@ -7,10 +7,14 @@ function start_onclick(){
 function cell_onclick(e)
 {
 	if (window.event) e=window.event;
+	/*
 	var obj=e.srcElement;
 	if (!obj) obj=e.target;		//For Firefox
 	if (!obj.posX) return;
   moveTo(obj.posX,obj.posY,hero);
+	*/
+	var map=document.getElementById('playArea');
+	moveTo(Math.round((e.clientX + document.documentElement.scrollLeft - map.offsetLeft)/2),Math.round((e.clientY + document.documentElement.scrollTop - map.offsetTop)/2),hero)
 }
 function cell_onmousemove(e)
 {

@@ -582,7 +582,7 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-		  move(x, y, this.ID);
+		  if (Math.random()<0.8) move(x, y, this.ID);
 		  this.basehp_re();
 		  this.deal_harm();
 		  this.def_hp();
@@ -641,7 +641,7 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-		  move(x, y, this.ID);
+		  if (Math.random()<0.8) move(x, y, this.ID);
 		  this.basehp_re();
 		  this.deal_harm();
 		  this.def_hp();
@@ -700,7 +700,7 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-		  move(x, y, this.ID);
+		  if (Math.random()<0.8) move(x, y, this.ID);
 		  this.basehp_re();
 		  this.deal_harm();
 		  this.def_hp();
@@ -759,7 +759,7 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-		  move(x, y, this.ID);
+		  if (Math.random()<0.8) move(x, y, this.ID);
 		  this.basehp_re();
 		  this.deal_harm();
 		  this.def_hp();
@@ -818,7 +818,7 @@ var littles={              //11至15为小兵
 	  },
 	  doEvent:function(){
 		  var x=this.tag_x,y=this.tag_y;
-		  move(x, y, this.ID);
+		  if (Math.random()<0.8) move(x, y, this.ID);
 		  this.basehp_re();
 		  this.deal_harm();
 		  this.def_hp();
