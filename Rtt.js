@@ -1097,7 +1097,7 @@ littles20: {
 var tower1 = {
     ID: 21,
     pos_x: 92,
-    pos_y: 140,
+    pos_y: 115,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1144,7 +1144,7 @@ var tower1 = {
 var tower2 = {
     ID: 22,
     pos_x: 192,
-    pos_y: 70,
+    pos_y: 45,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1216,13 +1216,13 @@ function showImage(obj)	//显示或更新obj为图片关联的对象
 			obj.image.className='image_general';
 		obj.image.src = './image/' + ID + '-' + state + '.png';
 		obj.image.style.left= obj.pos_x * 2 - 25 + 'px';
-		obj.image.style.top= obj.pos_y * 2 - 100 + 'px';
+		obj.image.style.top= obj.pos_y * 2 - 50 + 'px';
 		document.getElementById('playArea').appendChild(obj.image);
 	}
 	else
 	{
 		obj.image.style.left= obj.pos_x * 2 - 25 + 'px';
-		obj.image.style.top= obj.pos_y * 2 - 100 + 'px';
+		obj.image.style.top= obj.pos_y * 2 - 50 + 'px';
 		if (obj.state_changed)
 		{
 			obj.image.src = './image/' + ID + '-' + state + '.png';
