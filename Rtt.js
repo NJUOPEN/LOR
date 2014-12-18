@@ -1,6 +1,6 @@
 var ScreenWidth=300, ScreenHeight=200;	//定义屏幕的格子数，每个格子为2×2像素，则像素数为600×400
 var g={ground:0,thing:0};
-var groundX,groundY;//绘图区在整个页面的绝对坐标
+//var groundX,groundY;//绘图区在整个页面的绝对坐标
 var inited=false;	//表示是否已经初始化
 //全局变量：地图数组
 //其中ground代表地面；thing代表站在该处的物体 1—5为己方英雄6—10为对方英雄11—15为小兵21和22是防御塔
@@ -342,8 +342,8 @@ function showMap(){
         table.appendChild(cellLine);	//将完整的一行追加到整个表格中
     }
     map.appendChild(table);	//将完整的表格追加到视图区
-    groundX=table.offsetLeft;
-    groundY=table.offsetTop;
+    //groundX=table.offsetLeft;
+    //groundY=table.offsetTop;
 }
 
 
@@ -385,13 +385,13 @@ function showSwitchButton(obj){
 //创建控制区
 function showControlLayer(){
 	var map=document.getElementById('playground');
-	area=document.createElement('div');
-	area.id='controlArea';
-	showSkillArea(area);
-	showStateArea(area);
-	showSwitchButton(area);
+	//area=document.createElement('div');
+	//area.id='controlArea';
+	showSkillArea(map);
+	showStateArea(map);
+	showSwitchButton(map);
 	//map.insertBefore(area,document.getElementById('playArea'));	
-	map.appendChild(area);
+	//map.appendChild(area);
 }
 
 var time=0;
@@ -1096,8 +1096,8 @@ littles20: {
 
 var tower1 = {
     ID: 21,
-    pos_x: 90,
-    pos_y: 127,
+    pos_x: 92,
+    pos_y: 140,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1143,8 +1143,8 @@ var tower1 = {
 
 var tower2 = {
     ID: 22,
-    pos_x: 190,
-    pos_y: 57,
+    pos_x: 192,
+    pos_y: 70,
     hp: 0,//生命值
     hp_max: 0,//生命值的最大值
     hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1215,14 +1215,14 @@ function showImage(obj)	//显示或更新obj为图片关联的对象
 		else
 			obj.image.className='image_general';
 		obj.image.src = './image/' + ID + '-' + state + '.png';
-		obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
-		obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
+		obj.image.style.left= obj.pos_x * 2 - 25 + 'px';
+		obj.image.style.top= obj.pos_y * 2 - 100 + 'px';
 		document.getElementById('playArea').appendChild(obj.image);
 	}
 	else
 	{
-		obj.image.style.left=groundX + obj.pos_x * 2 - 25 + 'px';
-		obj.image.style.top=groundY + obj.pos_y * 2 - 100 + 'px';
+		obj.image.style.left= obj.pos_x * 2 - 25 + 'px';
+		obj.image.style.top= obj.pos_y * 2 - 100 + 'px';
 		if (obj.state_changed)
 		{
 			obj.image.src = './image/' + ID + '-' + state + '.png';
@@ -1448,8 +1448,8 @@ function findSomethingByID(ID)	//通过ID获取具体的对象
 
 function init()	//初始化
 {
-	//showControlLayer();	//不知道为什么鼠标点击功能失效，暂不显示控制栏
 	loadMap();
+	showControlLayer();
 	
 	inited=true;
 }
@@ -1464,7 +1464,7 @@ function ready()
 	
 	setTimeout(littles.littles12.setPosition(50,165),2000);
 	setTimeout(moveTo(285,5,littles.littles12),20001);
-	/*小兵太多，刷新速度很慢T_T
+	
 	setTimeout(littles.littles13.setPosition(35,175),3000);
 	setTimeout(moveTo(290,8,littles.littles13),30001);
 	
@@ -1473,7 +1473,7 @@ function ready()
 	
 	setTimeout(littles.littles15.setPosition(5,195),5000);
 	setTimeout(moveTo(298,12,littles.littles15),50001);
-	*/
+	
 	showImage(tower1);
 	showImage(tower2);
 }
