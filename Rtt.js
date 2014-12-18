@@ -405,7 +405,7 @@ var hero={              //1至9为英雄（可能）
 	tag_y:0,  //目的地
 	ti:0,	//上一次尝试的前进方向
 	state: 0,	//当前状态
-	state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	image_state:0,	//显示状态，与image的编号对应
 	hp: 0,//生命值
 	hp_max:0,//生命值的最大值
 	hp_re:0,//生命值的回复速度，每50ms的数值
@@ -506,7 +506,6 @@ var hero={              //1至9为英雄（可能）
 				return;
 			case 1:		//移动状态
 				move(x, y, this.ID);
-				return;
 		}
 		this.deal_harm();
 		this.def_hp();
@@ -523,7 +522,7 @@ var littles={              //11至15为小兵
 	  tag_y: 0,
 	  ti:0,	//上一次尝试的前进方向
 	  state: 0,	//当前状态
-	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	  image_state:0,
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -583,7 +582,7 @@ var littles={              //11至15为小兵
 	  tag_y: 0,
 	  ti:0,	//上一次尝试的前进方向
 	  state: 0,	//当前状态
-	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	  image_state:0,
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -642,7 +641,7 @@ var littles={              //11至15为小兵
 	  tag_y: 0,
 	  ti:0,	//上一次尝试的前进方向
 	  state: 0,	//当前状态
-	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	  image_state:0,
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -701,7 +700,7 @@ var littles={              //11至15为小兵
 	  tag_y: 0,
 	  ti:0,	//上一次尝试的前进方向
 	  state: 0,	//当前状态
-	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	  image_state:0,
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -760,7 +759,7 @@ var littles={              //11至15为小兵
 	  tag_y: 0,
 	  ti:0,	//上一次尝试的前进方向
 	  state: 0,	//当前状态
-	  state_changed:false,//相对于上一次刷新时状态是否改变；动作图片切换所必须
+	  image_state:0,
 	  hp: 0,//生命值
 	  hp_max: 0,//生命值的最大值
 	  hp_re: 0,//生命值的回复速度，每50ms的数值
@@ -1194,12 +1193,12 @@ function showImage(obj)	//显示或更新obj为图片关联的对象
 	if (obj.ID==1)
 	{
 		ID=1;
-		state=obj.state;
+		state=obj.image_state;
 	}
 	else if (obj.ID>=11 && obj.ID<=20)
 	{
 		ID=2;
-		state=obj.state;
+		state=obj.image_state;
 	}
 	else if (obj.ID==21 || obj.ID==22)
 	{
@@ -1221,12 +1220,13 @@ function showImage(obj)	//显示或更新obj为图片关联的对象
 	}
 	else
 	{
+		obj.image.src = './image/' + ID + '-' + state + '.png';
 		obj.image.style.left= obj.pos_x * 2 - 25 + 'px';
 		obj.image.style.top= obj.pos_y * 2 - 50 + 'px';
-		if (obj.state_changed)
+		/*if (obj.state_changed)
 		{
 			obj.image.src = './image/' + ID + '-' + state + '.png';
-		}
+		}*/
 	}
 }
 
@@ -1235,7 +1235,8 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 	if (!obj) return;
 	if (g.ground[x][y] == 0 || (g.thing[x][y] != 0 && g.thing[x][y] != obj.ID )) {   //目的无效
 			obj.state=0;
-			obj.state_changed=true;
+			obj.image_state=0;
+			//obj.state_changed=true;
 			return false;
 		}
 		//return;
@@ -1388,6 +1389,10 @@ function move(x,y,id){       //重置移动函数，x，y为目的地，ID为移
 		obj.pos_x=pos_x;
 		obj.pos_y=pos_y;
 		obj.ti=ti;
+		if (obj.image_state==1)
+			obj.image_state=0;
+		else
+			obj.image_state=1;
 		showImage(obj);
 }
 
